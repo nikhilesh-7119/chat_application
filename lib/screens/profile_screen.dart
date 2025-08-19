@@ -6,17 +6,23 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: "Discover"),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: "Friends"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: "Post"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings, color: Colors.black),
+          ),
         ],
-        currentIndex: 4,
-        onTap: (i) {},
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -24,22 +30,6 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top row with title and settings
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Profile",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.settings),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
               // Profile Info Card
               Center(
                 child: Column(
@@ -49,7 +39,8 @@ class ProfileScreen extends StatelessWidget {
                         const CircleAvatar(
                           radius: 45,
                           backgroundImage: NetworkImage(
-                              "https://via.placeholder.com/150"), // profile pic
+                            "https://via.placeholder.com/150",
+                          ), // profile pic
                         ),
                         Positioned(
                           bottom: 0,
@@ -59,14 +50,16 @@ class ProfileScreen extends StatelessWidget {
                             radius: 16,
                             child: Icon(Icons.edit, size: 18),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "John Doe",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Text(
                       "john.doe@university.edu",
@@ -74,8 +67,10 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     const Text("Stanford University"),
-                    const Text("Palo Alto, CA • Joined September 2024",
-                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    const Text(
+                      "Palo Alto, CA • Joined September 2024",
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
                   ],
                 ),
               ),
@@ -110,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
                   "Data Science",
                   "React",
                   "Node.js",
-                  "MongoDB"
+                  "MongoDB",
                 ],
               ),
 
@@ -130,9 +125,12 @@ class ProfileScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),
@@ -156,9 +154,13 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               const Icon(Icons.edit, size: 18),
             ],
@@ -171,8 +173,10 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Chips Section
-  Widget buildChipsSection(
-      {required String title, required List<String> chips}) {
+  Widget buildChipsSection({
+    required String title,
+    required List<String> chips,
+  }) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -184,9 +188,13 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               const Icon(Icons.edit, size: 18),
             ],
@@ -196,10 +204,12 @@ class ProfileScreen extends StatelessWidget {
             spacing: 8,
             runSpacing: 6,
             children: chips
-                .map((chip) => Chip(
-                      label: Text(chip),
-                      backgroundColor: Colors.grey.shade200,
-                    ))
+                .map(
+                  (chip) => Chip(
+                    label: Text(chip),
+                    backgroundColor: Colors.grey.shade200,
+                  ),
+                )
                 .toList(),
           ),
         ],
@@ -217,24 +227,29 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: const [
           Row(
-            children: const [
-              Text("Academic Information",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            children: [
+              Text(
+                "Academic Information",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               Spacer(),
               Icon(Icons.edit, size: 18),
             ],
           ),
-          const SizedBox(height: 10),
-          const Text("University: Stanford University",
-              style: TextStyle(fontSize: 14)),
-          const SizedBox(height: 4),
-          const Text("Year & Major: 3rd Year Computer Science",
-              style: TextStyle(fontSize: 14)),
-          const SizedBox(height: 4),
-          const Text("Location: Palo Alto, CA",
-              style: TextStyle(fontSize: 14)),
+          SizedBox(height: 10),
+          Text(
+            "University: Stanford University",
+            style: TextStyle(fontSize: 14),
+          ),
+          SizedBox(height: 4),
+          Text(
+            "Year & Major: 3rd Year Computer Science",
+            style: TextStyle(fontSize: 14),
+          ),
+          SizedBox(height: 4),
+          Text("Location: Palo Alto, CA", style: TextStyle(fontSize: 14)),
         ],
       ),
     );
@@ -251,9 +266,14 @@ class ProfileStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value,
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
         const SizedBox(height: 4),
         Text(title, style: const TextStyle(color: Colors.grey)),
       ],
