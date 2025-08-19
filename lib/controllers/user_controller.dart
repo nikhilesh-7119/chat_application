@@ -45,7 +45,9 @@ class UserController extends GetxController {
     try {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         interests: interests,
-      });
+      });    
+        await getUserDetails();
+
     } catch (e) {
       print('ERROR FROM USERCONTROLLER ADDINTEREST' + e.toString());
     }
@@ -66,6 +68,8 @@ class UserController extends GetxController {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'interests': newInterests,
       });
+            await getUserDetails();
+
     } catch (e) {
       print('ERROR FROM USERCONTROLLER REMOVE INTEREST' + e.toString());
     }
@@ -81,6 +85,8 @@ class UserController extends GetxController {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'profileImage': imageUrl,
       });
+      await getUserDetails();
+      
     } catch (e) {
       print('ERROR IN USERCONTROLLER UPDATE PROFILEIMAGE' + e.toString());
     }
@@ -94,6 +100,8 @@ class UserController extends GetxController {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'name': newName,
       });
+      await getUserDetails();
+
     } catch (e) {
       print('ERROR IN PROFILE CONTROLLER UPDATE NAME ' + e.toString());
     }
@@ -107,6 +115,7 @@ class UserController extends GetxController {
       await db.collection('user').doc(auth.currentUser!.uid).update({
         'bio': newBio,
       });
+      await getUserDetails();
     } catch (e) {
       print('ERROR IN PROFILE CONTROLLER UPDATE BIO' + e.toString());
     }
@@ -139,6 +148,7 @@ class UserController extends GetxController {
         'friends': otherNewFriends,
       });
 
+      await getUserDetails();
     } catch (e) {
       print('ERROR IN PROFILE CONTROLLER ADD FRIEND'+e.toString());
     }
