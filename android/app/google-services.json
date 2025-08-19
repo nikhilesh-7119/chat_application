@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "970733139736",
-    "project_id": "on1-teaching-app",
-    "storage_bucket": "on1-teaching-app.firebasestorage.app"
+    "project_number": "570787860433",
+    "project_id": "on1chatapplication",
+    "storage_bucket": "on1chatapplication.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:970733139736:android:4a408177b0d46328b5d06d",
+        "mobilesdk_app_id": "1:570787860433:android:500bbfcc2547b04f78daf0",
         "android_client_info": {
           "package_name": "com.example.chat_application"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDex5JuBetmx8gMIXUVtfDkSERYigvq11w"
+          "current_key": "AIzaSyDw-0QDtcqRdEIMQX7KI4WFsMhDxVC8WcE"
         }
       ],
       "services": {

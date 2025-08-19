@@ -1,6 +1,7 @@
 import 'package:chat_application/screens/email_page.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/services/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';
@@ -113,12 +114,14 @@ class _OtpScreenState extends State<OtpScreen> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       bool verified = authService.verifyOtp(enteredOtp);
                       if (verified) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Otp verified Successfully.')),
                         );
+                        UserCredential? user= await authService.signInOrCreate(widget.email);
+                        print(user);
                         Get.offAll(() => HomeScreen());
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

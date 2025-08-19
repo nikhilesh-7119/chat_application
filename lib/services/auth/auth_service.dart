@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:chat_application/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static final AuthService _instance = AuthService._internal();
-  factory AuthService() => _instance;
+  static final AuthService instance = AuthService._internal();
+  factory AuthService() => instance;
+  final db=FirebaseFirestore.instance;
   AuthService._internal();
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String? _generatedOtp;
   DateTime? expiryTime;
 
@@ -19,7 +21,6 @@ class AuthService {
         .collection('config')
         .doc('brevo')
         .get();
-
     if (doc.exists) {
       final data = doc.data()!;
       return {
@@ -31,27 +32,95 @@ class AuthService {
   }
 
   /// ---------- AUTH METHODS ----------
-  Future<UserCredential> signUp(String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
+
+  // Future<void> signInOrCreateUser(String email) async {
+  //   try {
+  //     print('😂😂😂'+'signin run');
+  //     await firebaseAuth.signInWithEmailAndPassword(
+  //       email: email,
+  //       password: '123456',
+  //     );
+  //   } catch (e) {
+  //     print(e.toString()+"😂😂");
+  //     if (e.toString() == 'user-not-found') {
+  //        await firebaseAuth.createUserWithEmailAndPassword(
+  //         email: email,
+  //         password: '123456',
+  //       );
+  //     } else {
+  //       rethrow;
+  //     }
+  //   }
+  // }
+
+
+  Future<UserCredential?> signInOrCreate(String email) async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  const String defaultPassword = '123456';
+
+  try {
+    // Try signing in first
+    UserCredential userCredential = await auth.signInWithEmailAndPassword(
       email: email,
-      password: password,
+      password: defaultPassword,
     );
+    print('User signed in successfully😂😂');
+    return userCredential;
+  } on FirebaseAuthException catch (e) {
+    print(e.code+'😂😂😂');
+    if (e.code == 'invalid-credential') {
+      // If user doesn't exist, create a new one
+      try {
+        UserCredential newUserCredential = await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: defaultPassword,
+        );
+        print('New user created successfully 😂😂😂😂');
+        return newUserCredential;
+      } on FirebaseAuthException catch (e) {
+        print('Failed to create user: ${e.message}');
+      }
+    } else if (e.code == 'wrong-password') {
+      print('Password is incorrect for existing user');
+    } else {
+      print('Sign in failed: ${e.message}');
+    }
+  } catch (e) {
+    print('An error occurred: $e');
   }
 
-  Future<UserCredential> signIn(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+  return null;
+}
+
+  Future<void> initUser(String email) async {
+    var newUser=UserModel(
       email: email,
-      password: password,
+      id: firebaseAuth.currentUser!.uid,
     );
+    try{
+      await db.collection('users').doc(firebaseAuth.currentUser!.uid).set(newUser.toJson());
+    } catch(e){
+      print(e.toString());
+    }
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    await firebaseAuth.signOut();
   }
 
-  String? getCurrentUserEmail() {
-    return _firebaseAuth.currentUser?.email;
-  }
+  // Future<UserCredential> signUp(String email) async {
+  //   return await _firebaseAuth.createUserWithEmailAndPassword(
+  //     email: email,
+  //     password: '123456',
+  //   );
+  // }
+
+  // Future<UserCredential> signIn(String email) async {
+  //   return await _firebaseAuth.signInWithEmailAndPassword(
+  //     email: email,
+  //     password: '123456',
+  //   );
+  // }
 
   /// ---------- OTP HANDLING ----------
   String generateOtp() {
@@ -61,7 +130,7 @@ class AuthService {
     return _generatedOtp!;
   }
 
-  /// ---------- SEND OTP ----------
+  /// ---------- SEND OTP ----------944654
   Future<void> sendOtpEmail(String email, String otp) async {
     final config = await _getBrevoConfig();
     final apiKey = config['API_KEY'] ?? '';
