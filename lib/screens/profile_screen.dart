@@ -1,3 +1,4 @@
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -5,6 +6,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _text = TextEditingController();
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -24,6 +27,19 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                child: Row(
+                  children: [
+                    Expanded(child: TextFormField(controller: _text)),
+                    IconButton(
+                      onPressed: () async {
+                        await UserController().updateBio(_text.text);
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
+                  ],
+                ),
+              ),
               // Top row with title and settings
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +65,8 @@ class ProfileScreen extends StatelessWidget {
                         const CircleAvatar(
                           radius: 45,
                           backgroundImage: NetworkImage(
-                              "https://via.placeholder.com/150"), // profile pic
+                            "https://via.placeholder.com/150",
+                          ), // profile pic
                         ),
                         Positioned(
                           bottom: 0,
@@ -59,14 +76,16 @@ class ProfileScreen extends StatelessWidget {
                             radius: 16,
                             child: Icon(Icons.edit, size: 18),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "John Doe",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Text(
                       "john.doe@university.edu",
@@ -74,8 +93,10 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     const Text("Stanford University"),
-                    const Text("Palo Alto, CA • Joined September 2024",
-                        style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    const Text(
+                      "Palo Alto, CA • Joined September 2024",
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
                   ],
                 ),
               ),
@@ -110,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                   "Data Science",
                   "React",
                   "Node.js",
-                  "MongoDB"
+                  "MongoDB",
                 ],
               ),
 
@@ -130,9 +151,12 @@ class ProfileScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),
@@ -156,9 +180,13 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               const Icon(Icons.edit, size: 18),
             ],
@@ -171,8 +199,10 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Chips Section
-  Widget buildChipsSection(
-      {required String title, required List<String> chips}) {
+  Widget buildChipsSection({
+    required String title,
+    required List<String> chips,
+  }) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -184,9 +214,13 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               const Icon(Icons.edit, size: 18),
             ],
@@ -196,10 +230,12 @@ class ProfileScreen extends StatelessWidget {
             spacing: 8,
             runSpacing: 6,
             children: chips
-                .map((chip) => Chip(
-                      label: Text(chip),
-                      backgroundColor: Colors.grey.shade200,
-                    ))
+                .map(
+                  (chip) => Chip(
+                    label: Text(chip),
+                    backgroundColor: Colors.grey.shade200,
+                  ),
+                )
                 .toList(),
           ),
         ],
@@ -220,21 +256,26 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(
             children: const [
-              Text("Academic Information",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                "Academic Information",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               Spacer(),
               Icon(Icons.edit, size: 18),
             ],
           ),
           const SizedBox(height: 10),
-          const Text("University: Stanford University",
-              style: TextStyle(fontSize: 14)),
+          const Text(
+            "University: Stanford University",
+            style: TextStyle(fontSize: 14),
+          ),
           const SizedBox(height: 4),
-          const Text("Year & Major: 3rd Year Computer Science",
-              style: TextStyle(fontSize: 14)),
+          const Text(
+            "Year & Major: 3rd Year Computer Science",
+            style: TextStyle(fontSize: 14),
+          ),
           const SizedBox(height: 4),
-          const Text("Location: Palo Alto, CA",
-              style: TextStyle(fontSize: 14)),
+          const Text("Location: Palo Alto, CA", style: TextStyle(fontSize: 14)),
         ],
       ),
     );
@@ -251,9 +292,14 @@ class ProfileStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value,
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
         const SizedBox(height: 4),
         Text(title, style: const TextStyle(color: Colors.grey)),
       ],

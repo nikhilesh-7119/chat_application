@@ -1,4 +1,5 @@
 import 'package:chat_application/cards/profile_card.dart';
+import 'package:chat_application/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const Center(child: Text("Friends Page")),
       const Center(child: Text("Post Page")),
       const Center(child: Text("Chats Page")),
-      const Center(child: Text("Profile Page")),
+      ProfileScreen(),
     ];
 
     return Scaffold(
