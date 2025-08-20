@@ -43,10 +43,7 @@ class _OtpScreenState extends State<OtpScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFEAF0FF), // light top
-              Color(0xFFDDE6FF), // little darker bottom
-            ],
+            colors: [Color(0xFFEAF0FF), Color(0xFFDDE6FF)],
           ),
         ),
         child: Center(
@@ -80,7 +77,10 @@ class _OtpScreenState extends State<OtpScreen> {
                 const SizedBox(height: 2),
                 Text(
                   widget.email,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -96,7 +96,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                   onCompleted: (pin) {
-                    enteredOtp = pin;
+                    setState(() {
+                      enteredOtp = pin;
+                    });
                     debugPrint("Entered OTP: $pin");
                   },
                 ),
@@ -114,18 +116,20 @@ class _OtpScreenState extends State<OtpScreen> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
-                    onPressed: () async {
+                    onPressed: () {
                       bool verified = authService.verifyOtp(enteredOtp);
                       if (verified) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Otp verified Successfully.')),
+                          const SnackBar(
+                            content: Text('OTP verified successfully!'),
+                          ),
                         );
-                        UserCredential? user= await authService.signInOrCreate(widget.email);
-                        print(user);
                         Get.offAll(() => HomeScreen());
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Invalid or expired Otp!')),
+                          const SnackBar(
+                            content: Text('Invalid or expired OTP!'),
+                          ),
                         );
                       }
                     },
@@ -152,7 +156,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     onPressed: () {
-                      Get.offAll(() => EmailPage());
+                      Get.offAll(() => const EmailPage());
                     },
                     child: const Text(
                       "Back to Email",
