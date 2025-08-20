@@ -13,19 +13,22 @@ class EmailPage extends StatefulWidget {
 class _SignupScreenState extends State<EmailPage> {
   final authService = AuthService();
   final _emailController = TextEditingController();
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _emailController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: screenWidth,
+        height: screenHeight,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -38,74 +41,78 @@ class _SignupScreenState extends State<EmailPage> {
         ),
         child: Center(
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.85,
-            padding: const EdgeInsets.all(20),
+            width: screenWidth * 0.85,
+            padding: EdgeInsets.all(screenWidth * 0.05),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(screenWidth * 0.03),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
-                  blurRadius: 8,
-                  spreadRadius: 2,
-                  offset: const Offset(0, 3),
+                  blurRadius: screenWidth * 0.02,
+                  spreadRadius: screenWidth * 0.005,
+                  offset: Offset(0, screenHeight * 0.005),
                 ),
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   "StudyConnect",
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: screenWidth * 0.06, // responsive text
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Text(
+                SizedBox(height: screenHeight * 0.01),
+                Text(
                   "Connect with fellow students who share your interests",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.035,
+                    color: Colors.black54,
+                  ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.025),
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Enter your email",
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 10,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.015,
+                      horizontal: screenWidth * 0.025,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(screenWidth * 0.02),
                       borderSide: BorderSide.none,
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: screenHeight * 0.02),
                 SizedBox(
                   width: double.infinity,
-                  height: 40,
+                  height: screenHeight * 0.06,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(screenWidth * 0.02),
                       ),
                     ),
                     onPressed: () async {
                       await authService.sendOtpFlow(_emailController.text);
                       Get.offAll(OtpScreen(email: _emailController.text));
                     },
-                    child: const Text(
+                    child: Text(
                       "Send Verification Code",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
+                        fontSize: screenWidth * 0.04,
                       ),
                     ),
                   ),

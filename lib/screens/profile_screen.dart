@@ -123,6 +123,7 @@ class ProfileScreen extends StatelessWidget {
                   icon: const Icon(Icons.logout),
                   label: const Text("Logout"),
                   style: ElevatedButton.styleFrom(
+                    textStyle: TextStyle(color: Colors.white),
                     backgroundColor: Colors.red,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32,
