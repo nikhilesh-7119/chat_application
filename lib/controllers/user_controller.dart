@@ -44,7 +44,7 @@ class UserController extends GetxController {
 
     try {
       await db.collection('users').doc(auth.currentUser!.uid).update({
-        interests: interests,
+        'interests': interests,
       });    
         await getUserDetails();
 
@@ -112,7 +112,7 @@ class UserController extends GetxController {
   Future<void> updateBio(String newBio) async {
     isLoading.value = true;
     try {
-      await db.collection('user').doc(auth.currentUser!.uid).update({
+      await db.collection('users').doc(auth.currentUser!.uid).update({
         'bio': newBio,
       });
       await getUserDetails();
@@ -122,47 +122,4 @@ class UserController extends GetxController {
     isLoading.value = false;
   }
 
-  //to add friend in the database in my list plus his list
-  Future<void> addFriend(String otherUid) async {
-    isLoading.value = true;
-
-    try {
-      List<String> myNewFriends = currentUser.value.friends!;
-      if (!myNewFriends.contains(otherUid)) {
-        myNewFriends.add(otherUid);
-      }
-
-      List<String> otherNewFriends = [];
-      await db.collection('users').doc(otherUid).get().then((value) {
-        otherNewFriends = UserModel.fromJson(value.data()!).friends!;
-      });
-      if (!otherNewFriends.contains(auth.currentUser!.uid)) {
-        otherNewFriends.add(auth.currentUser!.uid);
-      }
-
-      await db.collection('users').doc(auth.currentUser!.uid).update({
-        'friends': myNewFriends,
-      });
-
-      await db.collection('users').doc(otherUid).update({
-        'friends': otherNewFriends,
-      });
-
-      await getUserDetails();
-    } catch (e) {
-      print('ERROR IN PROFILE CONTROLLER ADD FRIEND'+e.toString());
-    }
-    isLoading.value = false;
-  }
-
-  //to request for friend
-  Future<void> requestFriendship(String otherUid) async{
-    isLoading.value=true;
-    try{
-      
-    } catch (e){
-      print('ERROR IN PROFILE CONTROLLER REQUESTFRIENFSHIP'+e.toString());
-    }
-    isLoading.value=false;
-  }
 }
