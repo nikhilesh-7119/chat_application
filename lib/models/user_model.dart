@@ -23,11 +23,16 @@ class UserModel {
     this.lastOnlineStatus,
     this.status,
     this.role,
-    this.interests,
+    this.interests ,
     this.friends,
     this.requested,
     this.requests,
-  });
+  }){
+    this.interests=interests ?? [];
+    this.friends=friends ?? [];
+    this.requested=requested ?? [];
+    this.requests=requests ?? [];
+  }
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

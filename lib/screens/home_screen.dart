@@ -1,6 +1,6 @@
 import 'package:chat_application/cards/profile_card.dart';
-import 'package:chat_application/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  UserController userController = Get.put(UserController());
+  FriendConntroller friendConntroller = Get.put(FriendConntroller());
   int _selectedIndex = 0;
 
   final students = [
@@ -51,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // friendConntroller.addInRequestedList('EMIKtrKv56ae7C3QFvatCApzXEB2');
+
     // Filter students if filters are applied
     // final filteredStudents = _selectedFilters.isEmpty
     //     ? students
@@ -120,8 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black54,
         currentIndex: _selectedIndex,
-        onTap: (index) {
+        onTap: (index) async {
           setState(() => _selectedIndex = index);
+          //for testing purpose only
+          // await friendConntroller.addFri('EMIKtrKv56ae7C3QFvatCApzXEB2');
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Discover"),

@@ -75,6 +75,7 @@ class AuthService {
           email: email,
           password: defaultPassword,
         );
+        await initUser(email);
         print('New user created successfully 😂😂😂😂');
         return newUserCredential;
       } on FirebaseAuthException catch (e) {
