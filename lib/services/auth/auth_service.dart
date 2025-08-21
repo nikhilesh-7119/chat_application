@@ -8,19 +8,17 @@ import 'package:http/http.dart' as http;
 class AuthService {
   static final AuthService instance = AuthService._internal();
   factory AuthService() => instance;
-  final db=FirebaseFirestore.instance;
   AuthService._internal();
 
+  final db = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   String? _generatedOtp;
   DateTime? expiryTime;
 
   /// ---------- FIRESTORE CONFIG FETCH ----------
   Future<Map<String, String?>> _getBrevoConfig() async {
-    final doc = await FirebaseFirestore.instance
-        .collection('config')
-        .doc('brevo')
-        .get();
+    final doc = await db.collection('config').doc('brevo').get();
     if (doc.exists) {
       final data = doc.data()!;
       return {
@@ -32,96 +30,49 @@ class AuthService {
   }
 
   /// ---------- AUTH METHODS ----------
-
-  // Future<void> signInOrCreateUser(String email) async {
-  //   try {
-  //     print('😂😂😂'+'signin run');
-  //     await firebaseAuth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: '123456',
-  //     );
-  //   } catch (e) {
-  //     print(e.toString()+"😂😂");
-  //     if (e.toString() == 'user-not-found') {
-  //        await firebaseAuth.createUserWithEmailAndPassword(
-  //         email: email,
-  //         password: '123456',
-  //       );
-  //     } else {
-  //       rethrow;
-  //     }
-  //   }
-  // }
-
-
   Future<UserCredential?> signInOrCreate(String email) async {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  const String defaultPassword = '123456';
-
-  try {
-    // Try signing in first
-    UserCredential userCredential = await auth.signInWithEmailAndPassword(
-      email: email,
-      password: defaultPassword,
-    );
-    print('User signed in successfully😂😂');
-    return userCredential;
-  } on FirebaseAuthException catch (e) {
-    print(e.code+'😂😂😂');
-    if (e.code == 'invalid-credential') {
-      // If user doesn't exist, create a new one
-      try {
-        UserCredential newUserCredential = await auth.createUserWithEmailAndPassword(
+    const String defaultPassword = '123456';
+    try {
+      // Try signing in
+      return await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: defaultPassword,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        // Create new user
+        return await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
           password: defaultPassword,
         );
         await initUser(email);
-        print('New user created successfully 😂😂😂😂');
-        return newUserCredential;
-      } on FirebaseAuthException catch (e) {
-        print('Failed to create user: ${e.message}');
       }
-    } else if (e.code == 'wrong-password') {
-      print('Password is incorrect for existing user');
-    } else {
-      print('Sign in failed: ${e.message}');
+      print('❌ Sign in failed: ${e.message}');
     }
-  } catch (e) {
-    print('An error occurred: $e');
+    return null;
   }
 
-  return null;
-}
-
   Future<void> initUser(String email) async {
-    var newUser=UserModel(
-      email: email,
-      id: firebaseAuth.currentUser!.uid,
-    );
-    try{
-      await db.collection('users').doc(firebaseAuth.currentUser!.uid).set(newUser.toJson());
-    } catch(e){
-      print(e.toString());
+    final uid = firebaseAuth.currentUser!.uid;
+    final userDoc = db.collection('users').doc(uid);
+
+    final snapshot = await userDoc.get();
+    if (!snapshot.exists) {
+      var newUser = UserModel(email: email, id: uid);
+      try {
+        await userDoc.set(newUser.toJson());
+        print("✅ Firestore user profile created");
+      } catch (e) {
+        print("❌ Firestore init failed: $e");
+      }
+    } else {
+      print("ℹ️ Firestore profile already exists");
     }
   }
 
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
-
-  // Future<UserCredential> signUp(String email) async {
-  //   return await _firebaseAuth.createUserWithEmailAndPassword(
-  //     email: email,
-  //     password: '123456',
-  //   );
-  // }
-
-  // Future<UserCredential> signIn(String email) async {
-  //   return await _firebaseAuth.signInWithEmailAndPassword(
-  //     email: email,
-  //     password: '123456',
-  //   );
-  // }
 
   /// ---------- OTP HANDLING ----------
   String generateOtp() {
@@ -131,7 +82,7 @@ class AuthService {
     return _generatedOtp!;
   }
 
-  /// ---------- SEND OTP ----------944654
+  /// ---------- SEND OTP ----------
   Future<void> sendOtpEmail(String email, String otp) async {
     final config = await _getBrevoConfig();
     final apiKey = config['API_KEY'] ?? '';
@@ -177,5 +128,28 @@ class AuthService {
     if (_generatedOtp == null || expiryTime == null) return false;
     if (DateTime.now().isAfter(expiryTime!)) return false;
     return otp == _generatedOtp;
+  }
+
+  /// ---------- OTP VERIFY + LOGIN ----------
+  Future<UserCredential?> verifyOtpAndLogin(String email, String otp) async {
+    // Check OTP validity
+    if (!verifyOtp(otp)) {
+      print("❌ Invalid or expired OTP");
+      return null;
+    }
+
+    print("✅ OTP verified successfully");
+
+    // Sign in or create new user
+    UserCredential? userCred = await signInOrCreate(email);
+
+    // if (userCred != null) {
+    //  // Initialize Firestore user profile
+    // await initUser(email);
+    //  }
+
+    // }
+
+    return userCred;
   }
 }

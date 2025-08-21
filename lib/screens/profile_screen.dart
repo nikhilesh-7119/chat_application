@@ -1,308 +1,267 @@
-import 'package:chat_application/controllers/user_controller.dart';
+import 'package:chat_application/cards/editable_section_profile_screen.dart';
+import 'package:chat_application/cards/profie_stat_card.dart';
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:chat_application/controllers/user_controller.dart';
+import 'package:chat_application/models/user_model.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  final String uid; // Pass user id if needed
+
+  const ProfileScreen({super.key, required this.uid});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController _text = TextEditingController();
-
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: "Discover"),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: "Friends"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: "Post"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-        currentIndex: 4,
-        onTap: (i) {},
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Expanded(child: TextFormField(controller: _text)),
-                    IconButton(
-                      onPressed: () async {
-                        await UserController().updateBio(_text.text);
-                      },
-                      icon: const Icon(Icons.search),
-                    ),
-                  ],
-                ),
-              ),
-              // Top row with title and settings
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Profile",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.settings),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              // Profile Info Card
-              Center(
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        const CircleAvatar(
-                          radius: 45,
-                          backgroundImage: NetworkImage(
-                            "https://via.placeholder.com/150",
-                          ), // profile pic
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 16,
-                            child: Icon(Icons.edit, size: 18),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "John Doe",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      "john.doe@university.edu",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text("Stanford University"),
-                    const Text(
-                      "Palo Alto, CA • Joined September 2024",
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Stats Row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  ProfileStat(title: "Friends", value: "12"),
-                  ProfileStat(title: "Posts", value: "5"),
-                  ProfileStat(title: "Connections", value: "8"),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // About Section
-              buildSection(
-                title: "About",
-                content:
-                    "Passionate about machine learning and data science. Looking forward to connecting with fellow students for collaborative learning and project development.",
-              ),
-
-              const SizedBox(height: 20),
-
-              // Interests Section
-              buildChipsSection(
-                title: "Interests",
-                chips: [
-                  "Python",
-                  "Machine Learning",
-                  "Data Science",
-                  "React",
-                  "Node.js",
-                  "MongoDB",
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // Academic Info Section
-              buildAcademicSection(),
-
-              const SizedBox(height: 20),
-
-              // Logout Button
-              Center(
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.logout),
-                  label: const Text("Logout"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // About + General Info Section
-  Widget buildSection({required String title, required String content}) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              const Icon(Icons.edit, size: 18),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(content, style: const TextStyle(fontSize: 14)),
-        ],
-      ),
-    );
-  }
-
-  // Chips Section
-  Widget buildChipsSection({
-    required String title,
-    required List<String> chips,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              const Icon(Icons.edit, size: 18),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 6,
-            children: chips
-                .map(
-                  (chip) => Chip(
-                    label: Text(chip),
-                    backgroundColor: Colors.grey.shade200,
-                  ),
-                )
-                .toList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Academic Info Section
-  Widget buildAcademicSection() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Text(
-                "Academic Information",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Spacer(),
-              Icon(Icons.edit, size: 18),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            "University: Stanford University",
-            style: TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            "Year & Major: 3rd Year Computer Science",
-            style: TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 4),
-          const Text("Location: Palo Alto, CA", style: TextStyle(fontSize: 14)),
-        ],
-      ),
-    );
-  }
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-// Widget for stats like Friends, Posts, Connections
-class ProfileStat extends StatelessWidget {
-  final String title;
-  final String value;
-  const ProfileStat({super.key, required this.title, required this.value});
+class _ProfileScreenState extends State<ProfileScreen> {
+  final UserController userController = Get.put(UserController());
+  final FriendConntroller friendConntroller = Get.put(FriendConntroller());
+
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _interestsController = TextEditingController();
+  final TextEditingController _academicInfoController = TextEditingController();
+
+  bool _isEditingBio = false;
+  bool _isEditingInterests = false;
+  bool _isEditingAcademic = false;
+
+  UserModel? _lastUser; // to detect changes and avoid repeated updates
+
+  @override
+  void initState() {
+    super.initState();
+    userController.getUserDetails(); // Load current user details on init
+  }
+
+  @override
+  void dispose() {
+    _bioController.dispose();
+    _interestsController.dispose();
+    _academicInfoController.dispose();
+    super.dispose();
+  }
+
+  void _populateFields(UserModel user) {
+    // Populate only if data changed to avoid text reset on rebuild
+    if (_lastUser != user) {
+      _bioController.text = user.bio ?? '';
+      _interestsController.text = (user.interests ?? []).join(', ');
+      _academicInfoController.text =
+          "University: user.university ?? ''}\nYear & Major: user.major ?? ''\nLocation: user.location ?? ''";
+      _lastUser = user;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 18,
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final cardPadding = screenWidth * 0.035;
+    final avatarRadius = screenWidth * 0.14;
+    final sectionFontSize = screenWidth * 0.045;
+    final subSectionFontSize = screenWidth * 0.038;
+    final iconSize = screenWidth * 0.054;
+    final cardBorderRadius = screenWidth * 0.04;
+    final editButtonSize = screenWidth * 0.09;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: sectionFontSize * 1.08,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
           ),
         ),
-        const SizedBox(height: 4),
-        Text(title, style: const TextStyle(color: Colors.grey)),
-      ],
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Navigate to settings
+            },
+            icon: Icon(Icons.settings, size: iconSize),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Obx(() {
+          final isLoading = userController.isLoading.value;
+          final user = userController.currentUser.value;
+
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (user == null) {
+            return Center(
+              child: Text(
+                'User data not found',
+                style: TextStyle(fontSize: sectionFontSize),
+              ),
+            );
+          }
+
+          _populateFields(user);
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(cardPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: avatarRadius,
+                        backgroundImage: user.profileImage != null
+                            ? NetworkImage(user.profileImage!)
+                            : null,
+                        child:
+                            user.profileImage == null && user.name!.isNotEmpty
+                            ? Text(
+                                user.name![0],
+                                style: TextStyle(fontSize: avatarRadius * 0.8),
+                              )
+                            : null,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: editButtonSize * 0.38,
+                          child: Icon(
+                            Icons.edit,
+                            size: editButtonSize * 0.52,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.012),
+                Text(
+                  user.name!,
+                  style: TextStyle(
+                    fontSize: sectionFontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  user.email!,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: subSectionFontSize,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.004),
+                // Text(user.university ?? '', style: TextStyle(fontSize: subSectionFontSize)),
+                // Text(
+                //   "${user.location ?? ''} • Joined ${user.joinedAt ?? ''}",
+                //   style:
+                //       TextStyle(color: Colors.grey, fontSize: subSectionFontSize * 0.88),
+                // ),
+                SizedBox(height: screenHeight * 0.025),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Obx(
+                      () => ProfileStat(
+                        title: 'Friends',
+                        value: friendConntroller.friendList.length.toString(),
+                      ),
+                    ),
+                    const ProfileStat(title: 'Posts', value: '5'),
+                    const ProfileStat(title: 'Connections', value: '8'),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.025),
+
+                EditableSection(
+                  title: 'About',
+                  controller: _bioController,
+                  isEditing: _isEditingBio,
+                  onEditToggle: () async {
+                    if (_isEditingBio) {
+                      await userController.updateBio(_bioController.text);
+                    }
+                    setState(() {
+                      _isEditingBio = !_isEditingBio;
+                    });
+                  },
+                  cardPadding: cardPadding,
+                  cardBorderRadius: cardBorderRadius,
+                  sectionFontSize: sectionFontSize,
+                  subSectionFontSize: subSectionFontSize,
+                  iconSize: iconSize,
+                ),
+                SizedBox(height: screenHeight * 0.025),
+
+                EditableSection(
+                  title: 'Interests',
+                  controller: _interestsController,
+                  isEditing: _isEditingInterests,
+                  onEditToggle: () {
+                    setState(() {
+                      _isEditingInterests = !_isEditingInterests;
+                    });
+                  },
+                  cardPadding: cardPadding,
+                  cardBorderRadius: cardBorderRadius,
+                  sectionFontSize: sectionFontSize,
+                  subSectionFontSize: subSectionFontSize,
+                  iconSize: iconSize,
+                ),
+                SizedBox(height: screenHeight * 0.025),
+
+                EditableSection(
+                  title: 'Academic Information',
+                  controller: _academicInfoController,
+                  isEditing: _isEditingAcademic,
+                  onEditToggle: () {
+                    setState(() {
+                      _isEditingAcademic = !_isEditingAcademic;
+                    });
+                  },
+                  cardPadding: cardPadding,
+                  cardBorderRadius: cardBorderRadius,
+                  sectionFontSize: sectionFontSize,
+                  subSectionFontSize: subSectionFontSize,
+                  iconSize: iconSize,
+                  multiline: true,
+                ),
+                SizedBox(height: screenHeight * 0.025),
+
+                Center(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      AuthService().signOut();
+                    },
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Logout'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.09,
+                        vertical: screenHeight * 0.018,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(screenWidth * 0.02),
+                      ),
+                      textStyle: TextStyle(fontSize: sectionFontSize * 0.90),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

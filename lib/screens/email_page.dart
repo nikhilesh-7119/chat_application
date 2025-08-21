@@ -74,6 +74,7 @@ class _SignupScreenState extends State<EmailPage> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Enter your email",
+
                     filled: true,
                     fillColor: Colors.grey.shade200,
                     contentPadding: const EdgeInsets.symmetric(

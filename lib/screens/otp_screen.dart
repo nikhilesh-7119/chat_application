@@ -6,17 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpScreen extends StatefulWidget {
+class OtpScreen extends StatelessWidget {
   final String email;
-  const OtpScreen({super.key, required this.email});
+  OtpScreen({super.key, required this.email});
 
-  @override
-  State<OtpScreen> createState() => _OtpScreenState();
-}
-
-class _OtpScreenState extends State<OtpScreen> {
   final authService = AuthService();
-  String enteredOtp = "";
+  final TextEditingController _pinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +30,8 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
 
+    String enteredOtp = "";
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -43,10 +40,7 @@ class _OtpScreenState extends State<OtpScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFEAF0FF), // light top
-              Color(0xFFDDE6FF), // little darker bottom
-            ],
+            colors: [Color(0xFFEAF0FF), Color(0xFFDDE6FF)],
           ),
         ),
         child: Center(
@@ -79,13 +73,17 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  widget.email,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  email,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 const SizedBox(height: 20),
 
                 // OTP input
                 Pinput(
+                  controller: _pinController,
                   length: 6,
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: defaultPinTheme.copyWith(
@@ -95,7 +93,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       border: Border.all(color: Colors.black),
                     ),
                   ),
-                  onCompleted: (pin) {
+                  onChanged: (pin) {
                     enteredOtp = pin;
                     debugPrint("Entered OTP: $pin");
                   },
@@ -115,17 +113,26 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      bool verified = authService.verifyOtp(enteredOtp);
+                      final pin = _pinController.text;
+                      bool verified = authService.verifyOtp(pin);
                       if (verified) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Otp verified Successfully.')),
+                          const SnackBar(
+                            content: Text('Otp verified Successfully.'),
+                          ),
                         );
-                        UserCredential? user= await authService.signInOrCreate(widget.email);
-                        print(user);
-                        Get.offAll(() => HomeScreen());
+                        UserCredential? user = await authService.signInOrCreate(
+                          email,
+                        );
+                        debugPrint(user.toString());
+                        Get.offAll(
+                          () => HomeScreen(uid: user?.user?.uid ?? ""),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Invalid or expired Otp!')),
+                          const SnackBar(
+                            content: Text('Invalid or expired Otp!'),
+                          ),
                         );
                       }
                     },
