@@ -45,9 +45,8 @@ class UserController extends GetxController {
     try {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'interests': interests,
-      });    
-        await getUserDetails();
-
+      });
+      await getUserDetails();
     } catch (e) {
       print('ERROR FROM USERCONTROLLER ADDINTEREST' + e.toString());
     }
@@ -68,8 +67,7 @@ class UserController extends GetxController {
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'interests': newInterests,
       });
-            await getUserDetails();
-
+      await getUserDetails();
     } catch (e) {
       print('ERROR FROM USERCONTROLLER REMOVE INTEREST' + e.toString());
     }
@@ -86,7 +84,6 @@ class UserController extends GetxController {
         'profileImage': imageUrl,
       });
       await getUserDetails();
-      
     } catch (e) {
       print('ERROR IN USERCONTROLLER UPDATE PROFILEIMAGE' + e.toString());
     }
@@ -101,7 +98,6 @@ class UserController extends GetxController {
         'name': newName,
       });
       await getUserDetails();
-
     } catch (e) {
       print('ERROR IN PROFILE CONTROLLER UPDATE NAME ' + e.toString());
     }
@@ -121,5 +117,4 @@ class UserController extends GetxController {
     }
     isLoading.value = false;
   }
-
 }
