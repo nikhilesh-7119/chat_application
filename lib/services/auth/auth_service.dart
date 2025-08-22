@@ -30,18 +30,18 @@ class AuthService {
   }
 
   /// ---------- AUTH METHODS ----------
-  Future<UserCredential?> signInOrCreate(String email) async {
+  Future<void> signInOrCreate(String email) async {
     const String defaultPassword = '123456';
     try {
       // Try signing in
-      return await firebaseAuth.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: defaultPassword,
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         // Create new user
-        return await firebaseAuth.createUserWithEmailAndPassword(
+        await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
           password: defaultPassword,
         );
@@ -129,27 +129,5 @@ class AuthService {
     if (DateTime.now().isAfter(expiryTime!)) return false;
     return otp == _generatedOtp;
   }
-
-  /// ---------- OTP VERIFY + LOGIN ----------
-  Future<UserCredential?> verifyOtpAndLogin(String email, String otp) async {
-    // Check OTP validity
-    if (!verifyOtp(otp)) {
-      print("❌ Invalid or expired OTP");
-      return null;
-    }
-
-    print("✅ OTP verified successfully");
-
-    // Sign in or create new user
-    UserCredential? userCred = await signInOrCreate(email);
-
-    // if (userCred != null) {
-    //  // Initialize Firestore user profile
-    // await initUser(email);
-    //  }
-
-    // }
-
-    return userCred;
-  }
 }
+

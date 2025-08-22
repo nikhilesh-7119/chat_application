@@ -121,12 +121,13 @@ class OtpScreen extends StatelessWidget {
                             content: Text('Otp verified Successfully.'),
                           ),
                         );
-                        UserCredential? user = await authService.signInOrCreate(
+                        await authService.signInOrCreate(
                           email,
                         );
-                        debugPrint(user.toString());
                         Get.offAll(
-                          () => HomeScreen(uid: user?.user?.uid ?? ""),
+                          () => HomeScreen(
+                            
+                          ),
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

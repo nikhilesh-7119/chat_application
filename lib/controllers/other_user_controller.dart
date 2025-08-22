@@ -14,13 +14,16 @@ class OtherUserController extends GetxController{
   //and the functions to show the name profileImage and other data of the 
   //other user
   Rx<UserModel> otherUser=UserModel().obs;
+  RxBool isLoading=false.obs;
 
   @override
   void onInit() async {
     // TODO: implement onInit
     super.onInit();
+    isLoading.value=true;
     await db.collection('users').doc(otherUid).get().then((value)=>{
       otherUser.value=UserModel.fromJson(value.data()!),
     });
+    isLoading.value=false;
   }
 }

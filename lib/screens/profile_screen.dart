@@ -8,9 +8,7 @@ import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String uid; // Pass user id if needed
-
-  const ProfileScreen({super.key, required this.uid});
+  
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

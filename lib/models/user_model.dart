@@ -7,7 +7,9 @@ class UserModel {
   String? joinedAt;
   String? lastOnlineStatus;
   String? status;
-  String? role;
+  String? academicInfo;
+  String? university;
+  String? location;
   List<String>? interests;
   List<String>? friends;
   List<String>? requested;
@@ -22,7 +24,9 @@ class UserModel {
     this.joinedAt,
     this.lastOnlineStatus,
     this.status,
-    this.role,
+    this.academicInfo,
+    this.university,
+    this.location,
     this.interests ,
     this.friends,
     this.requested,
@@ -43,7 +47,9 @@ class UserModel {
     joinedAt=json['joinedAt'];
     lastOnlineStatus=json['lastOnlineStatus'];
     status=json['status'];
-    role=json['role'];
+    academicInfo=json['academicInfo'];
+    university=json['university'];
+    location=json['location'];
     interests=List<String>.from(json['interests'] ?? []);
     friends=List<String>.from(json['friends'] ?? []);
     requested=List<String>.from(json['requested'] ?? []);
@@ -60,7 +66,9 @@ class UserModel {
     _data['joinedAt'] = joinedAt;
     _data['lastOnlineStatus'] = lastOnlineStatus;
     _data['status'] = status;
-    _data['role'] = role;
+    _data['academicInfo'] = academicInfo;
+    _data['university'] = university;
+    _data['location'] = location;
     _data['interests']=interests;
     _data['friends']=friends;
     _data['requested']=requested;

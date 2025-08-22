@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
-  String uid;
-  HomeScreen({super.key, required this.uid});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -39,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
       FriendsScreen(),
       const Center(child: Text("Post Page")),
       const Center(child: Text("Chats Page")),
-      ProfileScreen(uid: widget.uid),
+      ProfileScreen(
+        
+      ),
     ];
 
     return Scaffold(

@@ -19,7 +19,7 @@ class AuthGateway extends StatelessWidget {
           // If user is logged in
           if (snapshot.hasData && snapshot.data != null) {
             final uid = snapshot.data!.uid;
-            return HomeScreen(uid: uid);
+            return HomeScreen();
           }
 
           // If user is not logged in
