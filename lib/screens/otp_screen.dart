@@ -1,7 +1,6 @@
 import 'package:chat_application/screens/email_page.dart';
 import 'package:chat_application/screens/home_screen.dart';
 import 'package:chat_application/services/auth/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';

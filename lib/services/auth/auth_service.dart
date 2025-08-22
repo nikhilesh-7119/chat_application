@@ -58,7 +58,11 @@ class AuthService {
 
     final snapshot = await userDoc.get();
     if (!snapshot.exists) {
-      var newUser = UserModel(email: email, id: uid);
+      var newUser = UserModel(
+        email: email,
+        id: uid,
+        joinedAt: DateTime.now().toString(),
+      );
       try {
         await userDoc.set(newUser.toJson());
         print("✅ Firestore user profile created");
@@ -130,4 +134,3 @@ class AuthService {
     return otp == _generatedOtp;
   }
 }
-
