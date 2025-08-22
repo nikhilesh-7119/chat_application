@@ -2,8 +2,8 @@ import 'package:chat_application/cards/profile_card.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/screens/discover_page.dart';
-import 'package:chat_application/screens/Connections_screen.dart.dart';
-import 'package:chat_application/screens/profile_screen.dart';
+import 'package:chat_application/screens/connections_screen/Connections_screen.dart.dart';
+import 'package:chat_application/screens/current_profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

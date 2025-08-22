@@ -1,5 +1,5 @@
 import 'package:chat_application/cards/buildConnectionCard.dart';
-import 'package:chat_application/screens/friends_tab.dart';
+import 'package:chat_application/screens/connections_screen/friend_screen/friends_tab.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

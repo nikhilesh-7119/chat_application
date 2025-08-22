@@ -10,6 +10,8 @@ class UserModel {
   String? academicInfo;
   String? university;
   String? location;
+  String? year;
+  String? major;
   List<String>? interests;
   List<String>? friends;
   List<String>? requested;
@@ -27,6 +29,8 @@ class UserModel {
     this.academicInfo,
     this.university,
     this.location,
+    this.year,
+    this.major,
     this.interests ,
     this.friends,
     this.requested,
@@ -50,6 +54,8 @@ class UserModel {
     academicInfo=json['academicInfo'];
     university=json['university'];
     location=json['location'];
+    year=json['year'];
+    major=json['major'];
     interests=List<String>.from(json['interests'] ?? []);
     friends=List<String>.from(json['friends'] ?? []);
     requested=List<String>.from(json['requested'] ?? []);
@@ -69,6 +75,8 @@ class UserModel {
     _data['academicInfo'] = academicInfo;
     _data['university'] = university;
     _data['location'] = location;
+    _data['year'] = year;
+    _data['major'] = major;
     _data['interests']=interests;
     _data['friends']=friends;
     _data['requested']=requested;

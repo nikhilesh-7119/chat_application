@@ -117,4 +117,75 @@ class UserController extends GetxController {
     }
     isLoading.value = false;
   }
+
+  //to update academic info
+  Future<void> updateAcademicInfo(String newInfo) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'academicInfo': newInfo,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE ACADEMIC INFO' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
+  //to update university
+  Future<void> updateUniversity(String newUniversity) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'university': newUniversity,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE UNIVERSITY' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
+  //to update location
+  Future<void> updateLocation(String newLocation) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'location': newLocation,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE LOCATION' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
+  //to update year
+  Future<void> updateYear(String newYear) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'year': newYear,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE LOCATION' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
+  //to update major
+  Future<void> updateMajor(String newMajor) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'major': newMajor,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE LOCATION' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
 }
