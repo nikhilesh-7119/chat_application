@@ -33,18 +33,18 @@ class UserController extends GetxController {
     isLoading.value = false;
   }
 
-  //add interests to the user
-  Future<void> addInterests(String interest) async {
+  //update interests to the user
+  Future<void> addInterests(List<String> newinterest) async {
     isLoading.value = true;
 
-    List<String> interests = currentUser.value.interests!;
-    if (!interests.contains(interest)) {
-      interests.add(interest);
-    }
+    // List<String> interests = currentUser.value.interests!;
+    // if (!interests.contains(interest)) {
+    //   interests.add(interest);
+    // }
 
     try {
       await db.collection('users').doc(auth.currentUser!.uid).update({
-        'interests': interests,
+        'interests': newinterest,
       });
       await getUserDetails();
     } catch (e) {

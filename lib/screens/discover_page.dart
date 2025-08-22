@@ -75,10 +75,10 @@ class DiscoverPage extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: verticalPadding * 1.2),
                 child: ProfileCard(
                   name: data['name'] ?? 'Unnamed',
-                  image: data['image'] ?? '',
+                  image: data['profileImage'] ?? '',
                   year: data['year'] ?? '',
                   location: data['location'] ?? '',
-                  desc: data['desc'] ?? '',
+                  desc: data['bio'] ?? '',
                   // Optionally pass responsiveness params to ProfileCard here
                 ),
               );

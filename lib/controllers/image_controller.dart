@@ -26,9 +26,9 @@ class ImageController extends GetxController {
     return '';}
 
     try{
-      final response = await store.storage.from('files').upload(imagePath, file);
+      final response = await store.storage.from('profileImages').upload(imagePath, file);
       // print(response);
-      final downloadUrl = store.storage.from('files').getPublicUrl(imagePath);
+      final downloadUrl = store.storage.from('profileImages').getPublicUrl(imagePath);
       // print(downloadUrl+'😂😂');
       return downloadUrl;
     } catch(e){

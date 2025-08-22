@@ -14,8 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  UserController userController = Get.put(UserController());
-  FriendConntroller friendConntroller = Get.put(FriendConntroller());
+  // UserController userController = Get.put(UserController());
+  // FriendConntroller friendConntroller = Get.put(FriendConntroller());
   int _selectedIndex = 0;
 
   List<String> _selectedFilters = [];

@@ -39,7 +39,8 @@ class AuthService {
         password: defaultPassword,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      print('ERROR IN AUTH SERVIDES BELOW SIGNIN CALL'+e.toString());
+      if (e.code == 'invalid-credential') {
         // Create new user
         await firebaseAuth.createUserWithEmailAndPassword(
           email: email,

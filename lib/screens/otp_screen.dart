@@ -120,6 +120,7 @@ class OtpScreen extends StatelessWidget {
                             content: Text('Otp verified Successfully.'),
                           ),
                         );
+                        print('VERIFIED THE OTP');
                         await authService.signInOrCreate(
                           email,
                         );
