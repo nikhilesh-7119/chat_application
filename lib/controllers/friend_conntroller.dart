@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class FriendConntroller extends GetxController {
-  // final UserController userController=Get.put(UserController());
 
   //friend list is to show the friends in my profile
   RxList<String> friendList = <String>[].obs;
@@ -13,6 +12,9 @@ class FriendConntroller extends GetxController {
   //requests list is the list containing all the uid of other users who have
   //requested to me for friendship
   RxList<String> requestsList = <String>[].obs;
+  //set to store all the friends ,requested and requests
+  RxSet<String> allKnownUsersSet=<String>{}.obs;
+
   RxBool isLoading = false.obs;
 
   final auth = FirebaseAuth.instance;
@@ -33,6 +35,9 @@ class FriendConntroller extends GetxController {
     friendList.value = user.friends ?? [];
     requestedList.value = user.requested ?? [];
     requestsList.value = user.requests ?? [];
+    allKnownUsersSet.addAll(friendList);
+    allKnownUsersSet.addAll(requestedList);
+    allKnownUsersSet.addAll(requestsList);
 
     print('initiliaze function');
     print(friendList);
@@ -62,7 +67,7 @@ class FriendConntroller extends GetxController {
           .then(
             (value) => {
               otherFriendList = UserModel.fromJson(value.data()!).friends!,
-              otherRequestedList = UserModel.fromJson(value.data()!).friends!,
+              otherRequestedList = UserModel.fromJson(value.data()!).requested!,
             },
           );
 

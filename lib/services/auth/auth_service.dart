@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
@@ -38,8 +41,10 @@ class AuthService {
         email: email,
         password: defaultPassword,
       );
+      Get.put(UserController(), permanent: true);
+      Get.put(FriendConntroller(), permanent: true);
     } on FirebaseAuthException catch (e) {
-      print('ERROR IN AUTH SERVIDES BELOW SIGNIN CALL'+e.toString());
+      print('ERROR IN AUTH SERVIDES BELOW SIGNIN CALL' + e.toString());
       if (e.code == 'invalid-credential') {
         // Create new user
         await firebaseAuth.createUserWithEmailAndPassword(
@@ -47,6 +52,8 @@ class AuthService {
           password: defaultPassword,
         );
         await initUser(email);
+        Get.put(UserController(), permanent: true);
+        Get.put(FriendConntroller(), permanent: true);
       }
       print('❌ Sign in failed: ${e.message}');
     }
@@ -77,6 +84,11 @@ class AuthService {
 
   Future<void> signOut() async {
     await firebaseAuth.signOut();
+    if (Get.isRegistered<FriendConntroller>())
+      Get.delete<FriendConntroller>(force: true);
+
+    if (Get.isRegistered<UserController>())
+      Get.delete<UserController>(force: true);
   }
 
   /// ---------- OTP HANDLING ----------

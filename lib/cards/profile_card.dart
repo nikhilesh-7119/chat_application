@@ -1,18 +1,11 @@
+import 'package:chat_application/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
-  final String name;
-  final String desc;
-  final String image;
-  final String year;
-  final String location;
+  final UserModel userModel;
   const ProfileCard({
     super.key,
-    required this.name,
-    required this.desc,
-    required this.image,
-    required this.year,
-    required this.location,
+    required this.userModel,
   });
 
   @override
@@ -37,13 +30,13 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(radius: 24, backgroundImage: NetworkImage(image)),
+              CircleAvatar(radius: 24, backgroundImage: NetworkImage(userModel.profileImage ?? 'no Image url')),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    userModel.name ?? 'User',
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -54,7 +47,7 @@ class ProfileCard extends StatelessWidget {
                       Icon(Icons.school, size: 12, color: Colors.grey),
                       SizedBox(width: 5),
                       Text(
-                        year,
+                        userModel.year ?? 'No year',
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -67,7 +60,7 @@ class ProfileCard extends StatelessWidget {
                       Icon(Icons.location_city, size: 10, color: Colors.grey),
                       SizedBox(width: 4),
                       Text(
-                        location,
+                        userModel.location ?? 'India',
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -82,7 +75,7 @@ class ProfileCard extends StatelessWidget {
           //if (student["desc"]!.isNotEmpty) ...[
           const SizedBox(height: 8),
           Text(
-            desc!,
+            userModel.bio ?? 'bio not given',
             style: const TextStyle(fontSize: 13, color: Colors.black87),
           ),
           //],
