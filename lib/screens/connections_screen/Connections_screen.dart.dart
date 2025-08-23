@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class FriendsScreen extends StatelessWidget {
-  FriendsScreen({super.key});
+class ConnectionsScreen extends StatelessWidget {
+  ConnectionsScreen({super.key});
 
   final FriendConntroller friendController = Get.put(FriendConntroller());
 

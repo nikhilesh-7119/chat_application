@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final List<Widget> pages = [
       DiscoverPage(),
-      FriendsScreen(),
+      ConnectionsScreen(),
       const Center(child: Text("Post Page")),
       const Center(child: Text("Chats Page")),
       ProfileScreen(

@@ -1,3 +1,5 @@
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/image_controller.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/edit_academic_info.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/interest_section.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/profile_editable_screen.dart';
@@ -24,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
   final RxBool _isEditingInterests = false.obs;
   final RxBool _isEditingAcademic = false.obs;
 
-  final ImagePicker _picker = ImagePicker();
+  final ImageController imageController=Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -132,13 +134,10 @@ class ProfileScreen extends StatelessWidget {
                               radius: editButtonSize * 0.40,
                               child: IconButton(
                                 onPressed: () async {
-                                  final pickedFile = await _picker.pickImage(
-                                    source: ImageSource.gallery,
-                                  );
-                                  if (pickedFile != null) {
-                                    userController.updateProfileImage(
-                                      pickedFile.path,
-                                    );
+                                  String pickedImagePath = await imageController.pickImage(ImageSource.gallery);
+                                  print('IMAGE PICKED AND PATH IS' + pickedImagePath);
+                                  if(pickedImagePath!=''){
+                                    await userController.updateProfileImage(pickedImagePath);
                                   }
                                 },
                                 icon: Icon(
