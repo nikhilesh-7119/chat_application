@@ -1,4 +1,4 @@
-import 'package:chat_application/cards/profile_card.dart';
+import 'package:chat_application/screens/discover_screen/widgets/profile_card.dart';
 import 'package:chat_application/controllers/discover_controller.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:get/get.dart';

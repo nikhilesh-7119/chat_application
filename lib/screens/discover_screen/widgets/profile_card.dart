@@ -107,7 +107,9 @@ class ProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                
+              },
               child: const Text(
                 "Send Friend Request",
                 style: TextStyle(color: Colors.white),
