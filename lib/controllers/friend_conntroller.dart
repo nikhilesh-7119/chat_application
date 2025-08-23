@@ -28,13 +28,14 @@ class FriendConntroller extends GetxController {
   }
 
   //all list are initilized whenever this page will be opened
-  initializeAllList() async {
+  Future<void> initializeAllList() async {
     final doc = await db.collection('users').doc(myUid).get();
     final user = UserModel.fromJson(doc.data()!);
 
     friendList.value = user.friends ?? [];
     requestedList.value = user.requested ?? [];
     requestsList.value = user.requests ?? [];
+    allKnownUsersSet=<String>{}.obs;
     allKnownUsersSet.addAll(friendList);
     allKnownUsersSet.addAll(requestedList);
     allKnownUsersSet.addAll(requestsList);

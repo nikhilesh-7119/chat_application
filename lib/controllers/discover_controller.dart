@@ -33,6 +33,7 @@ class DiscoverController extends GetxController {
   Future<void> refreshDiscover() async {
     isLoading.value = true;
     try {
+      await friendController.initializeAllList();
       discoverUsers.clear();
       hasMore.value = true;
       _lastDoc = null;
