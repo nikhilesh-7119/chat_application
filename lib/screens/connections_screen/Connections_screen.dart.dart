@@ -1,6 +1,8 @@
-import 'package:chat_application/cards/buildConnectionCard.dart';
+import 'package:chat_application/screens/connections_screen/friend_screen/widgets/buildConnectionCard.dart';
 import 'package:chat_application/screens/connections_screen/friend_screen/friends_tab.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/screens/connections_screen/requested_screen/requested_tab.dart';
+import 'package:chat_application/screens/connections_screen/requests_screen/request_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -72,18 +74,8 @@ class FriendsScreen extends StatelessWidget {
             child: TabBarView(
               children: [
                 friendsTab(context, friendController),
-                Center(
-                  child: Text(
-                    "No received requests",
-                    style: TextStyle(fontSize: headerFontSize * 0.9),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    "No sent requests",
-                    style: TextStyle(fontSize: headerFontSize * 0.9),
-                  ),
-                ),
+                requestsTab(context, friendController),
+                requestedTab(context, friendController),
               ],
             ),
           ),

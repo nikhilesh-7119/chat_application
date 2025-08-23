@@ -1,27 +1,26 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:chat_application/controllers/friend_conntroller.dart';
-import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
   static final AuthService instance = AuthService._internal();
   factory AuthService() => instance;
+  final db = FirebaseFirestore.instance;
   AuthService._internal();
 
-  final db = FirebaseFirestore.instance;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
   String? _generatedOtp;
   DateTime? expiryTime;
 
   /// ---------- FIRESTORE CONFIG FETCH ----------
   Future<Map<String, String?>> _getBrevoConfig() async {
-    final doc = await db.collection('config').doc('brevo').get();
+    final doc = await FirebaseFirestore.instance
+        .collection('config')
+        .doc('brevo')
+        .get();
     if (doc.exists) {
       final data = doc.data()!;
       return {
@@ -33,62 +32,58 @@ class AuthService {
   }
 
   /// ---------- AUTH METHODS ----------
-  Future<void> signInOrCreate(String email) async {
+  Future<UserCredential?> signInOrCreate(String email) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
     const String defaultPassword = '123456';
+
     try {
-      // Try signing in
-      await firebaseAuth.signInWithEmailAndPassword(
+      // Try signing in first
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: defaultPassword,
       );
-      Get.put(UserController(), permanent: true);
-      Get.put(FriendConntroller(), permanent: true);
+      print('User signed in successfully😂😂');
+      return userCredential;
     } on FirebaseAuthException catch (e) {
-      print('ERROR IN AUTH SERVIDES BELOW SIGNIN CALL' + e.toString());
+      print(e.code + '😂😂😂');
       if (e.code == 'invalid-credential') {
-        // Create new user
-        await firebaseAuth.createUserWithEmailAndPassword(
-          email: email,
-          password: defaultPassword,
-        );
-        await initUser(email);
-        Get.put(UserController(), permanent: true);
-        Get.put(FriendConntroller(), permanent: true);
+        // If user doesn't exist, create a new one
+        try {
+          UserCredential newUserCredential = await auth
+              .createUserWithEmailAndPassword(
+                email: email,
+                password: defaultPassword,
+              );
+          await initUser(email);
+          print('New user created successfully 😂😂😂😂');
+          return newUserCredential;
+        } on FirebaseAuthException catch (e) {
+          print('Failed to create user: ${e.message}');
+        }
+      } else {
+        print('Sign in failed: ${e.message}');
       }
-      print('❌ Sign in failed: ${e.message}');
+    } catch (e) {
+      print('An error occurred: $e');
     }
+
     return null;
   }
 
   Future<void> initUser(String email) async {
-    final uid = firebaseAuth.currentUser!.uid;
-    final userDoc = db.collection('users').doc(uid);
-
-    final snapshot = await userDoc.get();
-    if (!snapshot.exists) {
-      var newUser = UserModel(
-        email: email,
-        id: uid,
-        joinedAt: DateTime.now().toString(),
-      );
-      try {
-        await userDoc.set(newUser.toJson());
-        print("✅ Firestore user profile created");
-      } catch (e) {
-        print("❌ Firestore init failed: $e");
-      }
-    } else {
-      print("ℹ️ Firestore profile already exists");
+    var newUser = UserModel(email: email, id: firebaseAuth.currentUser!.uid);
+    try {
+      await db
+          .collection('users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .set(newUser.toJson());
+    } catch (e) {
+      print(e.toString());
     }
   }
 
   Future<void> signOut() async {
     await firebaseAuth.signOut();
-    if (Get.isRegistered<FriendConntroller>())
-      Get.delete<FriendConntroller>(force: true);
-
-    if (Get.isRegistered<UserController>())
-      Get.delete<UserController>(force: true);
   }
 
   /// ---------- OTP HANDLING ----------
@@ -99,7 +94,7 @@ class AuthService {
     return _generatedOtp!;
   }
 
-  /// ---------- SEND OTP ----------
+  /// ---------- SEND OTP ----------944654
   Future<void> sendOtpEmail(String email, String otp) async {
     final config = await _getBrevoConfig();
     final apiKey = config['API_KEY'] ?? '';
@@ -145,5 +140,26 @@ class AuthService {
     if (_generatedOtp == null || expiryTime == null) return false;
     if (DateTime.now().isAfter(expiryTime!)) return false;
     return otp == _generatedOtp;
+  }
+
+  /// ---------- OTP VERIFY + LOGIN ----------
+  Future<UserCredential?> verifyOtpAndLogin(String email, String otp) async {
+    // Check OTP validity
+    if (!verifyOtp(otp)) {
+      print("❌ Invalid or expired OTP");
+      return null;
+    }
+
+    print("✅ OTP verified successfully");
+
+    // Sign in or create new user
+    UserCredential? userCred = await signInOrCreate(email);
+
+    // if (userCred != null) {
+    //   // Initialize Firestore user profile
+    //   await initUser(email);
+    // }
+
+    return userCred;
   }
 }

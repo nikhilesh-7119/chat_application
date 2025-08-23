@@ -14,6 +14,7 @@ class DiscoverPage extends StatefulWidget {
 class _DiscoverPageState extends State<DiscoverPage>
     with AutomaticKeepAliveClientMixin {
   late final DiscoverController discoverController;
+  final FriendConntroller friendConntroller = Get.find<FriendConntroller>();
   late final ScrollController _scroll;
 
   // Keep this State alive when used inside tabbed/persistent navigation
@@ -24,7 +25,7 @@ class _DiscoverPageState extends State<DiscoverPage>
   void initState() {
     super.initState();
     // Create or retrieve the controller exactly once.
-    // If you initialize DiscoverController elsewhere (e.g., after OTP), you can just Get.find().
+    // If you initialize DiscoverController elsewhere (e.g., after OTP), you can just use Get.find().
     discoverController = Get.isRegistered<DiscoverController>()
         ? Get.find<DiscoverController>()
         : Get.put(DiscoverController(), permanent: true);
@@ -138,6 +139,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                 child: ProfileCard(
                   // If your ProfileCard supports a full model:
                   userModel: user,
+                  onTap: () => friendConntroller.addInRequestedList(user.id!),
                 ),
               );
             },
@@ -147,9 +149,6 @@ class _DiscoverPageState extends State<DiscoverPage>
     );
   }
 }
-
-
-
 
 // import 'package:chat_application/cards/profile_card.dart';
 // import 'package:chat_application/controllers/discover_controller.dart';

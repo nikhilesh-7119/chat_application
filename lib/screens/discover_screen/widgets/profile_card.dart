@@ -1,12 +1,25 @@
-import 'package:chat_application/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
-  final UserModel userModel;
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
+  final String name;
+  final String desc;
+  final String image;
+  final String year;
+  final String location;
   const ProfileCard({
     super.key,
-    required this.userModel,
+    required this.name,
+    required this.desc,
+    required this.image,
+    required this.year,
+    required this.location,
   });
+=======
+  final VoidCallback onTap;
+  final UserModel userModel;
+  const ProfileCard({super.key, required this.userModel, required this.onTap});
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +43,22 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(radius: 24, backgroundImage: NetworkImage(userModel.profileImage ?? 'no Image url')),
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
+              CircleAvatar(radius: 24, backgroundImage: NetworkImage(image)),
+=======
+              CircleAvatar(
+                radius: 24,
+                backgroundImage: NetworkImage(
+                  userModel.profileImage ?? 'no Image url',
+                ),
+              ),
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    userModel.name ?? 'User',
+                    name,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -47,7 +69,7 @@ class ProfileCard extends StatelessWidget {
                       Icon(Icons.school, size: 12, color: Colors.grey),
                       SizedBox(width: 5),
                       Text(
-                        userModel.year ?? 'No year',
+                        year,
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -60,7 +82,7 @@ class ProfileCard extends StatelessWidget {
                       Icon(Icons.location_city, size: 10, color: Colors.grey),
                       SizedBox(width: 4),
                       Text(
-                        userModel.location ?? 'India',
+                        location,
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -72,10 +94,9 @@ class ProfileCard extends StatelessWidget {
               ),
             ],
           ),
-          //if (student["desc"]!.isNotEmpty) ...[
           const SizedBox(height: 8),
           Text(
-            userModel.bio ?? 'bio not given',
+            desc!,
             style: const TextStyle(fontSize: 13, color: Colors.black87),
           ),
           //],
@@ -107,9 +128,11 @@ class ProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {
-                
-              },
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
+              onPressed: () {},
+=======
+              onPressed: onTap,
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
               child: const Text(
                 "Send Friend Request",
                 style: TextStyle(color: Colors.white),

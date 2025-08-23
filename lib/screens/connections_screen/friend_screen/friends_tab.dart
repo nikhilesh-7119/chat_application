@@ -1,6 +1,7 @@
-import 'package:chat_application/cards/buildConnectionCard.dart';
+import 'package:chat_application/screens/connections_screen/friend_screen/widgets/buildConnectionCard.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:chat_application/models/user_model.dart';
+import 'package:chat_application/screens/other_user_profile_screen/other_user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,20 +42,25 @@ Widget friendsTab(BuildContext context, FriendConntroller friendController) {
             final user = UserModel.fromJson(
               snapshot.data!.data() as Map<String, dynamic>,
             );
-            return buildConnectionCard(
-              name: user.name,
-              //university: user.university ?? "",
-              message: user.bio ?? "",
-              tags: user.interests ?? [],
-              timeAgo: "",
-              avatar: CircleAvatar(
-                radius: screenWidth * 0.06,
-                // backgroundImage: user.image != null
-                //     ? NetworkImage(user.image!)
-                //     : null,
-                // child: user.image == null
-                //     ? Text(user.name!.isNotEmpty ? user.name![0] : "")
-                //     : null,
+            return GestureDetector(
+              onTap: () {
+                Get.to(OtherUserProfileScreen(otherUserId: user.id!));
+              },
+              child: buildConnectionCard(
+                name: user.name,
+                university: user.university ?? "",
+                message: user.bio ?? "",
+                tags: user.interests ?? [],
+                timeAgo: "",
+                avatar: CircleAvatar(
+                  radius: screenWidth * 0.06,
+                  backgroundImage: user.profileImage != null
+                      ? NetworkImage(user.profileImage!)
+                      : null,
+                  child: user.profileImage == null
+                      ? Text(user.name!.isNotEmpty ? user.name![0] : "")
+                      : null,
+                ),
               ),
             );
           },

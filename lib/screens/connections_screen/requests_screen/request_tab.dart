@@ -1,6 +1,8 @@
-import 'package:chat_application/cards/buildConnectionCard.dart';
+import 'package:chat_application/screens/connections_screen/friend_screen/widgets/buildConnectionCard.dart';
 import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:chat_application/models/user_model.dart';
+import 'package:chat_application/screens/connections_screen/requests_screen/widget/requests_card.dart';
+import 'package:chat_application/screens/other_user_profile_screen/other_user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,42 +20,47 @@ Widget requestsTab(BuildContext context, FriendConntroller friendController) {
     if (friendController.requestsList.isEmpty) {
       return Center(
         child: Text(
-          "No friends yet.",
+          "No requests yet.",
           style: TextStyle(fontSize: screenWidth * 0.045),
         ),
       );
     }
-
     return ListView.separated(
       padding: EdgeInsets.all(listPadding),
       itemCount: friendController.requestsList.length,
       separatorBuilder: (_, __) => SizedBox(height: cardSpacing),
       itemBuilder: (context, index) {
-        final friendUid = friendController.requestsList[index];
+        final requestUid = friendController.requestsList[index];
 
         return FutureBuilder<DocumentSnapshot>(
-          future: friendController.db.collection('users').doc(friendUid).get(),
+          future: friendController.db.collection('users').doc(requestUid).get(),
           builder: (context, snapshot) {
             if (!snapshot.hasData || !snapshot.data!.exists) {
-              return const ListTile(title: Text('Loading...'));
+              return Center(child: CircularProgressIndicator());
             }
             final user = UserModel.fromJson(
               snapshot.data!.data() as Map<String, dynamic>,
             );
-            return buildConnectionCard(
-              name: user.name,
-              //university: user.university ?? "",
-              message: user.bio ?? "",
-              tags: user.interests ?? [],
-              timeAgo: "",
-              avatar: CircleAvatar(
-                radius: screenWidth * 0.06,
-                // backgroundImage: user.image != null
-                //     ? NetworkImage(user.image!)
-                //     : null,
-                // child: user.image == null
-                //     ? Text(user.name!.isNotEmpty ? user.name![0] : "")
-                //     : null,
+            return GestureDetector(
+              onTap: () {
+                Get.to(OtherUserProfileScreen(otherUserId: user.id!));
+              },
+              child: requests_card(
+                onTap: () => friendController.addFriend(user.id!),
+                name: user.name,
+                university: user.university ?? "",
+                message: user.bio ?? "",
+                tags: user.interests ?? [],
+                timeAgo: "",
+                avatar: CircleAvatar(
+                  radius: screenWidth * 0.06,
+                  backgroundImage: user.profileImage != null
+                      ? NetworkImage(user.profileImage!)
+                      : null,
+                  child: user.profileImage == null
+                      ? Text(user.name!.isNotEmpty ? user.name![0] : "")
+                      : null,
+                ),
               ),
             );
           },

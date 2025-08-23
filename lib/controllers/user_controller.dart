@@ -118,6 +118,19 @@ class UserController extends GetxController {
     isLoading.value = false;
   }
 
+  Future<void> updateEmail(String email) async {
+    isLoading.value = true;
+    try {
+      await db.collection('users').doc(auth.currentUser!.uid).update({
+        'email': email,
+      });
+      await getUserDetails();
+    } catch (e) {
+      print('ERROR IN PROFILE CONTROLLER UPDATE EMAIL' + e.toString());
+    }
+    isLoading.value = false;
+  }
+
   //to update academic info
   Future<void> updateAcademicInfo(String newInfo) async {
     isLoading.value = true;
@@ -187,5 +200,4 @@ class UserController extends GetxController {
     }
     isLoading.value = false;
   }
-
 }
