@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
   final String name;
   final String desc;
   final String image;
@@ -14,6 +15,11 @@ class ProfileCard extends StatelessWidget {
     required this.year,
     required this.location,
   });
+=======
+  final VoidCallback onTap;
+  final UserModel userModel;
+  const ProfileCard({super.key, required this.userModel, required this.onTap});
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,16 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
               CircleAvatar(radius: 24, backgroundImage: NetworkImage(image)),
+=======
+              CircleAvatar(
+                radius: 24,
+                backgroundImage: NetworkImage(
+                  userModel.profileImage ?? 'no Image url',
+                ),
+              ),
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +94,6 @@ class ProfileCard extends StatelessWidget {
               ),
             ],
           ),
-          //if (student["desc"]!.isNotEmpty) ...[
           const SizedBox(height: 8),
           Text(
             desc!,
@@ -114,7 +128,11 @@ class ProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
+<<<<<<< Updated upstream:lib/cards/profile_card.dart
               onPressed: () {},
+=======
+              onPressed: onTap,
+>>>>>>> Stashed changes:lib/screens/discover_screen/widgets/profile_card.dart
               child: const Text(
                 "Send Friend Request",
                 style: TextStyle(color: Colors.white),
