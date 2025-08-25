@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final UserController userController = Get.put(UserController());
-  final FriendConntroller friendConntroller = Get.put(FriendConntroller());
+  final FriendConntroller friendConntroller = Get.find<FriendConntroller>();
 
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _interestsController = TextEditingController();
@@ -135,9 +135,11 @@ class ProfileScreen extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () async {
                                   String pickedImagePath = await imageController.pickImage(ImageSource.gallery);
-                                  print('IMAGE PICKED AND PATH IS' + pickedImagePath);
-                                  if(pickedImagePath!=''){
-                                    await userController.updateProfileImage(pickedImagePath);
+                                  // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
+                                  String imageUrl= await imageController.uploadFileToSupabase(pickedImagePath);
+                                  // print('IMAGE PICKED AND PATH IS' + imageUrl);
+                                  if(imageUrl!=''){
+                                    await userController.updateProfileImage(imageUrl);
                                   }
                                 },
                                 icon: Icon(

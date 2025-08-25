@@ -1,8 +1,14 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:chat_application/controllers/discover_controller.dart';
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/models/user_model.dart';
+import 'package:chat_application/screens/email_page.dart';
+import 'package:chat_application/services/auth/auth_gateway.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
@@ -71,7 +77,21 @@ class AuthService {
   }
 
   Future<void> initUser(String email) async {
-    var newUser = UserModel(email: email, id: firebaseAuth.currentUser!.uid);
+    var newUser = UserModel(
+      email: email,
+      id: firebaseAuth.currentUser!.uid,
+      profileImage:
+          'https://vnacqsborwypthofarkq.supabase.co/storage/v1/object/public/profileImages/profile-user.png',
+      joinedAt: DateTime.now().toString(),
+      academicInfo: 'Not Available',
+      bio: 'Not Available',
+      location: 'Not Available',
+      major: 'Not Available',
+      name: email,
+      status: 'Not Available',
+      university: 'Not Available',
+      year: 'Not Available',
+    );
     try {
       await db
           .collection('users')
@@ -84,6 +104,17 @@ class AuthService {
 
   Future<void> signOut() async {
     await firebaseAuth.signOut();
+    // Dispose controllers manually
+    if (Get.isRegistered<UserController>()) {
+      Get.delete<UserController>(force: true);
+    }
+    if (Get.isRegistered<FriendConntroller>()) {
+      Get.delete<FriendConntroller>(force: true);
+    }
+    if (Get.isRegistered<DiscoverController>()) {
+      Get.delete<DiscoverController>(force: true);
+    }
+    Get.offAll(AuthGateway());
   }
 
   /// ---------- OTP HANDLING ----------

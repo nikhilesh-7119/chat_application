@@ -76,10 +76,10 @@ class UserController extends GetxController {
   }
 
   //update profile Image
-  Future<void> updateProfileImage(String imagePath) async {
+  Future<void> updateProfileImage(String imageUrl) async {
     isLoading.value = true;
     try {
-      String imageUrl = await ImageController().uploadFileToSupabase(imagePath);
+      // String imageUrl = await ImageController().uploadFileToSupabase(imagePath);
       await db.collection('users').doc(auth.currentUser!.uid).update({
         'profileImage': imageUrl,
       });

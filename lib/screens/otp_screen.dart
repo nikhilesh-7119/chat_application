@@ -1,7 +1,11 @@
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/screens/email_page.dart';
 import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/services/auth/auth_gateway.dart';
 import 'package:chat_application/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';
 
@@ -124,8 +128,10 @@ class OtpScreen extends StatelessWidget {
                         await authService.signInOrCreate(
                           email,
                         );
+                        // Get.put(UserController(),permanent: true);
+                        // Get.put(FriendConntroller(),permanent: true);
                         Get.offAll(
-                          () => HomeScreen(
+                          () => AuthGateway(
                             
                           ),
                         );
