@@ -1,14 +1,10 @@
-import 'package:chat_application/screens/discover_screen/widgets/profile_card.dart';
-import 'package:chat_application/controllers/friend_conntroller.dart';
-import 'package:chat_application/controllers/user_controller.dart';
+import 'package:chat_application/screens/chat_page/chat_list.dart';
 import 'package:chat_application/screens/discover_screen/discover_page.dart';
 import 'package:chat_application/screens/connections_screen/Connections_screen.dart.dart';
 import 'package:chat_application/screens/current_profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -36,10 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
       DiscoverPage(),
       ConnectionsScreen(),
       const Center(child: Text("Post Page")),
-      const Center(child: Text("Chats Page")),
-      ProfileScreen(
-        
-      ),
+      ChatList(),
+      ProfileScreen(),
     ];
 
     return Scaffold(

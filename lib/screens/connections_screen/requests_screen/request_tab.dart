@@ -47,6 +47,7 @@ Widget requestsTab(BuildContext context, FriendConntroller friendController) {
               },
               child: requests_card(
                 onTap: () => friendController.addFriend(user.id!),
+                DeclineTap: () => friendController.rejectRequests(user.id!),
                 name: user.name,
                 university: user.university ?? "",
                 message: user.bio ?? "",

@@ -22,12 +22,7 @@ class ProfileScreen extends StatelessWidget {
   // Reactive editing states
   final RxBool _isEditingBio = false.obs;
 
-<<<<<<< HEAD
-  final ImagePicker _picker = ImagePicker();
   final ImageController imageController = Get.put(ImageController());
-=======
-  final ImageController imageController=Get.put(ImageController());
->>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +130,6 @@ class ProfileScreen extends StatelessWidget {
                               radius: editButtonSize * 0.40,
                               child: IconButton(
                                 onPressed: () async {
-<<<<<<< HEAD
                                   String pickedImagePath = await imageController
                                       .pickImage(ImageSource.gallery);
                                   // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
@@ -146,21 +140,6 @@ class ProfileScreen extends StatelessWidget {
                                     await userController.updateProfileImage(
                                       imageUrl,
                                     );
-                                  final pickedFile = await _picker.pickImage(
-                                    source: ImageSource.gallery,
-                                  );
-                                  if (pickedFile != null) {
-                                    userController.updateProfileImage(
-                                      pickedFile.path,
-                                    );
-=======
-                                  String pickedImagePath = await imageController.pickImage(ImageSource.gallery);
-                                  // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
-                                  String imageUrl= await imageController.uploadFileToSupabase(pickedImagePath);
-                                  // print('IMAGE PICKED AND PATH IS' + imageUrl);
-                                  if(imageUrl!=''){
-                                    await userController.updateProfileImage(imageUrl);
->>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
                                   }
                                 },
                                 icon: Icon(

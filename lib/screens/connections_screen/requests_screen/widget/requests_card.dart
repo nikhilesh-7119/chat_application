@@ -2,6 +2,7 @@ import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:flutter/material.dart';
 
 Widget requests_card({
+  required VoidCallback DeclineTap,
   required String? name,
   required String? university,
   required String? message,
@@ -55,6 +56,7 @@ Widget requests_card({
           Text(timeAgo!, style: const TextStyle(color: Colors.grey)),
           const SizedBox(height: 8),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               OutlinedButton.icon(
                 onPressed: onTap,
@@ -62,7 +64,7 @@ Widget requests_card({
                 label: const Text("Accept"),
               ),
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: DeclineTap,
                 icon: const Icon(Icons.message, size: 18),
                 label: const Text("Decline"),
               ),
