@@ -1,59 +1,59 @@
-import 'package:chat_application/cards/profile_card.dart';
-import 'package:chat_application/screens/chats_page.dart';
-import 'package:chat_application/screens/connections_screen.dart';
-import 'package:chat_application/screens/discover_page.dart';
-import 'package:chat_application/screens/post_page.dart';
-import 'package:chat_application/screens/profile_screen.dart';
+import 'package:chat_application/screens/discover_screen/widgets/profile_card.dart';
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
+import 'package:chat_application/screens/discover_screen/discover_page.dart';
+import 'package:chat_application/screens/connections_screen/Connections_screen.dart.dart';
+import 'package:chat_application/screens/current_profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // UserController userController = Get.put(UserController());
+  // FriendConntroller friendConntroller = Get.put(FriendConntroller());
   int _selectedIndex = 0;
 
-  final students = [
-    {
-      "name": "Alex Chen",
-      "year": "MIT • 3rd Year",
-      "location": "Boston, MA",
-      "desc": "Looking for study partners in ML and data science",
-      "tags": ["Python", "Data Science", "Machine Learning"],
-      "image": "https://i.pravatar.cc/150?img=3",
-    },
-    {
-      "name": "Sarah Johnson",
-      "year": "Stanford • 2nd Year",
-      "location": "Palo Alto, CA",
-      "desc": "Mobile app developer seeking coding buddies",
-      "tags": ["Java", "Mobile Development", "React Native"],
-      "image": "https://i.pravatar.cc/150?img=5",
-    },
-  ];
+  List<String> _selectedFilters = [];
 
   @override
   Widget build(BuildContext context) {
+    // friendConntroller.addInRequestedList('EMIKtrKv56ae7C3QFvatCApzXEB2');
+
+    // Filter students if filters are applied
+    // final filteredStudents = _selectedFilters.isEmpty
+    //     ? students
+    //     : students
+    //         .where((student) => student['tags']
+    //             .any((tag) => _selectedFilters.contains(tag)))
+    //         .toList();
+
     final List<Widget> pages = [
-      DiscoverPage(students: students),
-      const ConnectionsScreen(),
-      const PostPage(),
-      const ChatsPage(),
-      const ProfileScreen(),
+      DiscoverPage(),
+      ConnectionsScreen(),
+      const Center(child: Text("Post Page")),
+      const Center(child: Text("Chats Page")),
+      ProfileScreen(
+        
+      ),
     ];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black54,
         currentIndex: _selectedIndex,
-        onTap: (index) {
+        onTap: (index) async {
           setState(() => _selectedIndex = index);
+          //for testing purpose only
+          // await friendConntroller.addFri('EMIKtrKv56ae7C3QFvatCApzXEB2');
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Discover"),

@@ -1,22 +1,20 @@
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/screens/email_page.dart';
 import 'package:chat_application/screens/home_screen.dart';
+import 'package:chat_application/services/auth/auth_gateway.dart';
 import 'package:chat_application/services/auth/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpScreen extends StatefulWidget {
+class OtpScreen extends StatelessWidget {
   final String email;
-  const OtpScreen({super.key, required this.email});
+  OtpScreen({super.key, required this.email});
 
-  @override
-  State<OtpScreen> createState() => _OtpScreenState();
-}
-
-class _OtpScreenState extends State<OtpScreen> {
   final authService = AuthService();
-  String enteredOtp = "";
+  final TextEditingController _pinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +32,8 @@ class _OtpScreenState extends State<OtpScreen> {
         border: Border.all(color: Colors.grey.shade400),
       ),
     );
+
+    String enteredOtp = "";
 
     return Scaffold(
       body: Container(
@@ -76,7 +76,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  widget.email,
+                  email,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -86,6 +86,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
                 // OTP input
                 Pinput(
+                  controller: _pinController,
                   length: 6,
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: defaultPinTheme.copyWith(
@@ -95,10 +96,8 @@ class _OtpScreenState extends State<OtpScreen> {
                       border: Border.all(color: Colors.black),
                     ),
                   ),
-                  onCompleted: (pin) {
-                    setState(() {
-                      enteredOtp = pin;
-                    });
+                  onChanged: (pin) {
+                    enteredOtp = pin;
                     debugPrint("Entered OTP: $pin");
                   },
                 ),
@@ -117,27 +116,29 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      if (enteredOtp.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please enter OTP')),
-                        );
-                        return;
-                      }
-
-                      UserCredential? verified = await authService
-                          .verifyOtpAndLogin(widget.email, enteredOtp);
-
-                      if (verified != null) {
+                      final pin = _pinController.text;
+                      bool verified = authService.verifyOtp(pin);
+                      if (verified) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('OTP verified successfully!'),
+                            content: Text('Otp verified Successfully.'),
                           ),
                         );
-                        Get.offAll(() => const HomeScreen());
+                        print('VERIFIED THE OTP');
+                        await authService.signInOrCreate(
+                          email,
+                        );
+                        // Get.put(UserController(),permanent: true);
+                        // Get.put(FriendConntroller(),permanent: true);
+                        Get.offAll(
+                          () => AuthGateway(
+                            
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Invalid or expired OTP!'),
+                            content: Text('Invalid or expired Otp!'),
                           ),
                         );
                       }
@@ -165,7 +166,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     onPressed: () {
-                      Get.offAll(() => const EmailPage());
+                      Get.offAll(() => EmailPage());
                     },
                     child: const Text(
                       "Back to Email",

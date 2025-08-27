@@ -1,14 +1,12 @@
-import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:flutter/material.dart';
 
-Widget requests_card({
+Widget buildConnectionCard({
   required String? name,
-  required String? university,
+  //required String? university,
   required String? message,
   required List<String>? tags,
   required String? timeAgo,
   required Widget avatar,
-  required VoidCallback onTap,
 }) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -32,14 +30,14 @@ Widget requests_card({
                       fontSize: 16,
                     ),
                   ),
-                  Text(university!, style: const TextStyle(color: Colors.grey)),
+                  //Text(university!, style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 8),
-          // Text(message!),
-          // const SizedBox(height: 8),
+          Text(message!),
+          const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             children: tags!
@@ -54,19 +52,10 @@ Widget requests_card({
           const SizedBox(height: 8),
           Text(timeAgo!, style: const TextStyle(color: Colors.grey)),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              OutlinedButton.icon(
-                onPressed: onTap,
-                icon: const Icon(Icons.message, size: 18),
-                label: const Text("Accept"),
-              ),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.message, size: 18),
-                label: const Text("Decline"),
-              ),
-            ],
+          OutlinedButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.message, size: 18),
+            label: const Text("Message"),
           ),
         ],
       ),

@@ -21,6 +21,7 @@ class OtherUserProfileScreen extends StatelessWidget {
     final width = size.width;
     final height = size.height;
     final avatarRadius = width * 0.14;
+    final cardBorderRadius = width * 0.03;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -64,7 +65,8 @@ class OtherUserProfileScreen extends StatelessWidget {
                             ? NetworkImage(user.profileImage!)
                             : null,
                         child:
-                            user.profileImage == null && user.name!.isNotEmpty
+                            user.profileImage == null &&
+                                (user.name?.isNotEmpty ?? false)
                             ? Text(
                                 user.name![0],
                                 style: TextStyle(fontSize: avatarRadius * 1.5),
@@ -87,6 +89,7 @@ class OtherUserProfileScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: height * 0.008),
+<<<<<<< HEAD
                       Text(
                         user.university ?? "No University",
                         style: TextStyle(
@@ -110,6 +113,8 @@ class OtherUserProfileScreen extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: height * 0.01),
+=======
+>>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                       SizedBox(height: height * 0.05),
@@ -117,18 +122,44 @@ class OtherUserProfileScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Icon(Icons.school, size: width * 0.045),
+                           SizedBox(width: width * 0.02),
+
+                          Text(
+                            user.university ?? "No University",
+                            style: TextStyle(
+                              fontSize: width * 0.038,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: height * 0.01),
+                      
+                    
+                      Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Icon(Icons.location_on, size: width * 0.045),
                           SizedBox(width: width * 0.02),
                           Text(
                             user.location ?? "Unknown",
                             style: TextStyle(fontSize: width * 0.038),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
+<<<<<<< HEAD
                         ],
                       ),
                       SizedBox(width: width * 0.05),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+=======
+                      ],),
+                          SizedBox(width: width * 0.05),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center, children: [
+>>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
                           Icon(Icons.calendar_today, size: width * 0.045),
                           SizedBox(width: width * 0.02),
                           Text(
@@ -137,21 +168,8 @@ class OtherUserProfileScreen extends StatelessWidget {
                                 : "Joined at NA",
                             style: TextStyle(fontSize: width * 0.038),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: height * 0.02),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _statItem(
-                            user.friends?.length ?? 0,
-                            "Friends",
-                            width,
-                          ),
-                          _statItem(0, "Posts", width),
-                          _statItem(0, "Connections", width),
-                        ],
-                      ),
+                        ],)
+                      
                     ],
                   ),
                         ],
@@ -192,10 +210,44 @@ class OtherUserProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
+              SizedBox(height: height * 0.02),
+
+              // Stats Section
+              Container(
+                height: height * 0.12,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(cardBorderRadius),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _statItem(
+                      user.friends?.length ?? 0,
+                      "Friends",
+                      width,
+                      Colors.blue,
+                    ),
+                    _statItem(0, "Posts", width, Colors.green),
+                    _statItem(0, "Connections", width, Colors.purple),
+                  ],
+                ),
+              ),
+
               SizedBox(height: height * 0.02),
 
               // About Section
               _infoCard("About", user.bio ?? "No about info", width, height),
+
               SizedBox(height: height * 0.02),
 
               // Interests Section
@@ -227,15 +279,16 @@ class OtherUserProfileScreen extends StatelessWidget {
   }
 
   // Reusable stat item
-  Widget _statItem(int value, String label, double width) {
+  Widget _statItem(int value, String label, double width, Color color) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "$value",
           style: TextStyle(
             fontSize: width * 0.05,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: color,
           ),
         ),
         Text(

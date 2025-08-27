@@ -1,7 +1,7 @@
 import 'package:chat_application/widget/filter_content.dart';
 import 'package:flutter/material.dart';
 
-void _showFilterDialog(BuildContext context) {
+void FilterDrawer(BuildContext context) {
   showGeneralDialog(
     context: context,
     barrierDismissible: true,

@@ -49,8 +49,8 @@ Widget buildConnectionCard({
                 )
                 .toList(),
           ),
-          const SizedBox(height: 8),
-          Text(timeAgo!, style: const TextStyle(color: Colors.grey)),
+          // const SizedBox(height: 8),
+          // Text(timeAgo!, style: const TextStyle(color: Colors.grey)),
           const SizedBox(height: 8),
           OutlinedButton.icon(
             onPressed: () {},

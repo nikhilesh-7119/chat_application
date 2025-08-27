@@ -1,3 +1,5 @@
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/image_controller.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/edit_academic_info.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/interest_section.dart';
 import 'package:chat_application/screens/current_profile_screen/widgets/profile_editable_screen.dart';
@@ -13,15 +15,19 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   final UserController userController = Get.put(UserController());
-  final FriendConntroller friendConntroller = Get.put(FriendConntroller());
+  final FriendConntroller friendConntroller = Get.find<FriendConntroller>();
 
   final TextEditingController _bioController = TextEditingController();
 
   // Reactive editing states
   final RxBool _isEditingBio = false.obs;
 
+<<<<<<< HEAD
   final ImagePicker _picker = ImagePicker();
   final ImageController imageController = Get.put(ImageController());
+=======
+  final ImageController imageController=Get.put(ImageController());
+>>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +135,7 @@ class ProfileScreen extends StatelessWidget {
                               radius: editButtonSize * 0.40,
                               child: IconButton(
                                 onPressed: () async {
+<<<<<<< HEAD
                                   String pickedImagePath = await imageController
                                       .pickImage(ImageSource.gallery);
                                   // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
@@ -146,6 +153,14 @@ class ProfileScreen extends StatelessWidget {
                                     userController.updateProfileImage(
                                       pickedFile.path,
                                     );
+=======
+                                  String pickedImagePath = await imageController.pickImage(ImageSource.gallery);
+                                  // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
+                                  String imageUrl= await imageController.uploadFileToSupabase(pickedImagePath);
+                                  // print('IMAGE PICKED AND PATH IS' + imageUrl);
+                                  if(imageUrl!=''){
+                                    await userController.updateProfileImage(imageUrl);
+>>>>>>> bbe5f1796242dcd072a601fafce7de4d2b53ad8f
                                   }
                                 },
                                 icon: Icon(
