@@ -16,15 +16,12 @@ class ProfileScreen extends StatelessWidget {
   final FriendConntroller friendConntroller = Get.put(FriendConntroller());
 
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _interestsController = TextEditingController();
-  final TextEditingController _academicInfoController = TextEditingController();
 
   // Reactive editing states
   final RxBool _isEditingBio = false.obs;
-  final RxBool _isEditingInterests = false.obs;
-  final RxBool _isEditingAcademic = false.obs;
 
   final ImagePicker _picker = ImagePicker();
+  final ImageController imageController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +129,16 @@ class ProfileScreen extends StatelessWidget {
                               radius: editButtonSize * 0.40,
                               child: IconButton(
                                 onPressed: () async {
+                                  String pickedImagePath = await imageController
+                                      .pickImage(ImageSource.gallery);
+                                  // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
+                                  String imageUrl = await imageController
+                                      .uploadFileToSupabase(pickedImagePath);
+                                  // print('IMAGE PICKED AND PATH IS' + imageUrl);
+                                  if (imageUrl != '') {
+                                    await userController.updateProfileImage(
+                                      imageUrl,
+                                    );
                                   final pickedFile = await _picker.pickImage(
                                     source: ImageSource.gallery,
                                   );
@@ -260,7 +267,6 @@ class ProfileScreen extends StatelessWidget {
                 InterestsSection(),
                 SizedBox(height: screenHeight * 0.025),
 
-                /// Academic Section
                 /// Academic Section
                 Container(
                   padding: EdgeInsets.all(screenWidth * 0.035), // instead of 12

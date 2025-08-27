@@ -93,8 +93,27 @@ class OtherUserProfileScreen extends StatelessWidget {
                           fontSize: width * 0.038,
                           color: Colors.black87,
                         ),
+                      SizedBox(height: height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.school, size: width * 0.045),
+                          SizedBox(width: width * 0.02),
+
+                          Text(
+                            user.university ?? "No University",
+                            style: TextStyle(
+                              fontSize: width * 0.038,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: height * 0.05),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -104,7 +123,12 @@ class OtherUserProfileScreen extends StatelessWidget {
                             user.location ?? "Unknown",
                             style: TextStyle(fontSize: width * 0.038),
                           ),
-                          SizedBox(width: width * 0.05),
+                        ],
+                      ),
+                      SizedBox(width: width * 0.05),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Icon(Icons.calendar_today, size: width * 0.045),
                           SizedBox(width: width * 0.02),
                           Text(
@@ -130,6 +154,42 @@ class OtherUserProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(height: height * 0.02),
+
+              // Stats Section
+              Container(
+                height: height * 0.12,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(cardBorderRadius),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _statItem(
+                      user.friends?.length ?? 0,
+                      "Friends",
+                      width,
+                      Colors.blue,
+                    ),
+                    _statItem(0, "Posts", width, Colors.green),
+                    _statItem(0, "Connections", width, Colors.purple),
+                  ],
                 ),
               ),
               SizedBox(height: height * 0.02),
