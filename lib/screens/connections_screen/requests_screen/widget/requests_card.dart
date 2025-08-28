@@ -2,7 +2,6 @@ import 'package:chat_application/controllers/friend_conntroller.dart';
 import 'package:flutter/material.dart';
 
 Widget requests_card({
-  required VoidCallback DeclineTap,
   required String? name,
   required String? university,
   required String? message,

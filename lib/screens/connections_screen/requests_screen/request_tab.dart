@@ -47,7 +47,8 @@ Widget requestsTab(BuildContext context, FriendConntroller friendController) {
                 Get.to(OtherUserProfileScreen(otherUserId: user.id!));
               },
               child: requests_card(
-                onTap: () => friendController.addFriend(user.id!),
+                acceptRequest: () => friendController.addFriend(user.id!),
+                rejectRequest: () => friendController.withdrawRequest(user.id!),
                 name: user.name,
                 university: user.university ?? "",
                 message: user.bio ?? "",

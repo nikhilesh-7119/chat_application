@@ -2,6 +2,7 @@ import 'package:chat_application/screens/chat_page/chat_list.dart';
 import 'package:chat_application/screens/discover_screen/discover_page.dart';
 import 'package:chat_application/screens/connections_screen/Connections_screen.dart.dart';
 import 'package:chat_application/screens/current_profile_screen/profile_screen.dart';
+import 'package:chat_application/screens/post_screen/post_Screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> pages = [
       DiscoverPage(),
       ConnectionsScreen(),
-      const Center(child: Text("Post Page")),
+      PostScreen(),
       ChatList(),
       ProfileScreen(),
     ];
