@@ -349,7 +349,7 @@ class ProfileScreen extends StatelessWidget {
                           Expanded(
                             flex: 3,
                             child: Text(
-                              '${user.year ?? 'NA'} ${user.major ?? ''}',
+                              '${user.year ?? 'NA'} year ${user.major ?? ''}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: subSectionFontSize,

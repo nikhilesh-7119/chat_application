@@ -88,12 +88,12 @@ class OtherUserProfileScreen extends StatelessWidget {
                           fontSize: width * 0.038,
                         ),
                       ),
-                      SizedBox(height: height * 0.008),
+                      SizedBox(height: height * 0.001),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.school, size: width * 0.045),
-                           SizedBox(width: width * 0.02),
+                          SizedBox(width: width * 0.02),
 
                           Text(
                             user.university ?? "No University",
@@ -104,10 +104,10 @@ class OtherUserProfileScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: height * 0.01),
-                      
-                    
-                      Row(mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: height * 0.05),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.location_on, size: width * 0.045),
                           SizedBox(width: width * 0.02),
@@ -117,10 +117,12 @@ class OtherUserProfileScreen extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                      ],),
-                          SizedBox(width: width * 0.05),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center, children: [
+                        ],
+                      ),
+                      SizedBox(width: width * 0.05),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Icon(Icons.calendar_today, size: width * 0.045),
                           SizedBox(width: width * 0.02),
                           Text(
@@ -129,8 +131,8 @@ class OtherUserProfileScreen extends StatelessWidget {
                                 : "Joined at NA",
                             style: TextStyle(fontSize: width * 0.038),
                           ),
-                        ],)
-                      
+                        ],
+                      ),
                     ],
                   ),
                 ),

@@ -8,7 +8,8 @@ Widget requests_card({
   required List<String>? tags,
   required String? timeAgo,
   required Widget avatar,
-  required VoidCallback onTap,
+  required VoidCallback acceptRequest,
+  required VoidCallback rejectRequest,
 }) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -57,12 +58,12 @@ Widget requests_card({
           Row(
             children: [
               OutlinedButton.icon(
-                onPressed: onTap,
+                onPressed: acceptRequest,
                 icon: const Icon(Icons.message, size: 18),
                 label: const Text("Accept"),
               ),
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: rejectRequest,
                 icon: const Icon(Icons.message, size: 18),
                 label: const Text("Decline"),
               ),

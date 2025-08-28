@@ -77,22 +77,22 @@ class ProfileEditableScreen extends StatelessWidget {
                   SizedBox(height: fieldSpacing),
 
                   /// Email
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      labelStyle: TextStyle(fontSize: labelFontSize),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(width * 0.025),
-                      ),
-                    ),
-                    style: TextStyle(fontSize: fieldFontSize),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) => value == null || value.isEmpty
-                        ? "Enter your email"
-                        : null,
-                  ),
-                  SizedBox(height: fieldSpacing),
+                  // TextFormField(
+                  //   controller: _emailController,
+                  //   decoration: InputDecoration(
+                  //     labelText: "Email",
+                  //     labelStyle: TextStyle(fontSize: labelFontSize),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(width * 0.025),
+                  //     ),
+                  //   ),
+                  //   style: TextStyle(fontSize: fieldFontSize),
+                  //   keyboardType: TextInputType.emailAddress,
+                  //   validator: (value) => value == null || value.isEmpty
+                  //       ? "Enter your email"
+                  //       : null,
+                  // ),
+                  // SizedBox(height: fieldSpacing),
 
                   /// Save button
                   Center(

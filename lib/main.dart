@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(titleLarge: TextStyle(color: Colors.white)),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
 

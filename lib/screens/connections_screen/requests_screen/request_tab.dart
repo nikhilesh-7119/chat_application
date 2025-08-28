@@ -12,6 +12,7 @@ Widget requestsTab(BuildContext context, FriendConntroller friendController) {
   final screenHeight = MediaQuery.of(context).size.height;
   final double listPadding = screenWidth * 0.03;
   final double cardSpacing = screenHeight * 0.014;
+  friendController.initializeAllList();
 
   return Obx(() {
     if (friendController.isLoading.value) {
@@ -46,7 +47,8 @@ Widget requestsTab(BuildContext context, FriendConntroller friendController) {
                 Get.to(OtherUserProfileScreen(otherUserId: user.id!));
               },
               child: requests_card(
-                onTap: () => friendController.addFriend(user.id!),
+                acceptRequest: () => friendController.addFriend(user.id!),
+                rejectRequest: () => friendController.rejectRequests(user.id!),
                 name: user.name,
                 university: user.university ?? "",
                 message: user.bio ?? "",

@@ -41,29 +41,31 @@ class ConnectionsScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.01),
-                SizedBox(
-                  height: tabBarHeight,
-                  child: TabBar(
-                    labelColor: Colors.blue,
-                    unselectedLabelColor: Colors.grey,
-                    indicatorColor: Colors.blue,
-                    labelStyle: TextStyle(
-                      fontSize: tabFontSize,
-                      fontWeight: FontWeight.w600,
+                Obx(()=>
+                   SizedBox(
+                    height: tabBarHeight,
+                    child: TabBar(
+                      labelColor: Colors.blue,
+                      unselectedLabelColor: Colors.grey,
+                      indicatorColor: Colors.blue,
+                      labelStyle: TextStyle(
+                        fontSize: tabFontSize,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      unselectedLabelStyle: TextStyle(fontSize: tabFontSize),
+                      tabs: [
+                        Tab(
+                          text: "Friends (${friendController.friendList.length})",
+                        ),
+                        Tab(
+                          text:
+                              "Received (${friendController.requestsList.length})",
+                        ),
+                        Tab(
+                          text: "Sent (${friendController.requestedList.length})",
+                        ),
+                      ],
                     ),
-                    unselectedLabelStyle: TextStyle(fontSize: tabFontSize),
-                    tabs: [
-                      Tab(
-                        text: "Friends (${friendController.friendList.length})",
-                      ),
-                      Tab(
-                        text:
-                            "Received (${friendController.requestsList.length})",
-                      ),
-                      Tab(
-                        text: "Sent (${friendController.requestedList.length})",
-                      ),
-                    ],
                   ),
                 ),
               ],

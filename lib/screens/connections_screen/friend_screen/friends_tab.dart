@@ -11,6 +11,7 @@ Widget friendsTab(BuildContext context, FriendConntroller friendController) {
   final screenHeight = MediaQuery.of(context).size.height;
   final double listPadding = screenWidth * 0.03;
   final double cardSpacing = screenHeight * 0.014;
+  friendController.initializeAllList();
 
   return Obx(() {
     if (friendController.isLoading.value) {
