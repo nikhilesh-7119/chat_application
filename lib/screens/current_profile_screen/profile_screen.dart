@@ -18,15 +18,11 @@ class ProfileScreen extends StatelessWidget {
   final FriendConntroller friendConntroller = Get.find<FriendConntroller>();
 
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _interestsController = TextEditingController();
-  final TextEditingController _academicInfoController = TextEditingController();
 
   // Reactive editing states
   final RxBool _isEditingBio = false.obs;
-  final RxBool _isEditingInterests = false.obs;
-  final RxBool _isEditingAcademic = false.obs;
 
-  final ImageController imageController=Get.put(ImageController());
+  final ImageController imageController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +130,16 @@ class ProfileScreen extends StatelessWidget {
                               radius: editButtonSize * 0.40,
                               child: IconButton(
                                 onPressed: () async {
-                                  String pickedImagePath = await imageController.pickImage(ImageSource.gallery);
+                                  String pickedImagePath = await imageController
+                                      .pickImage(ImageSource.gallery);
                                   // print('IMAGE IS PICKED IN PROFILE SCREEN'+pickedImagePath);
-                                  String imageUrl= await imageController.uploadFileToSupabase(pickedImagePath);
+                                  String imageUrl = await imageController
+                                      .uploadFileToSupabase(pickedImagePath);
                                   // print('IMAGE PICKED AND PATH IS' + imageUrl);
-                                  if(imageUrl!=''){
-                                    await userController.updateProfileImage(imageUrl);
+                                  if (imageUrl != '') {
+                                    await userController.updateProfileImage(
+                                      imageUrl,
+                                    );
                                   }
                                 },
                                 icon: Icon(
@@ -261,7 +261,6 @@ class ProfileScreen extends StatelessWidget {
                 InterestsSection(),
                 SizedBox(height: screenHeight * 0.025),
 
-                /// Academic Section
                 /// Academic Section
                 Container(
                   padding: EdgeInsets.all(screenWidth * 0.035), // instead of 12

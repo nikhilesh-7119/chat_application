@@ -16,12 +16,11 @@ class OtherUserProfileScreen extends StatelessWidget {
       OtherUserController(otherUid: otherUserId),
     );
 
-    // Get device width & height for pixel-perfect scaling
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final avatarRadius = width * 0.14;
-    final cardBorderRadius = width * 0.03;
+    final avatarRadius = width * 0.18;
+    final cardBorderRadius = width * 0.04;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -32,7 +31,7 @@ class OtherUserProfileScreen extends StatelessWidget {
           style: TextStyle(
             color: Colors.black,
             fontSize: width * 0.05,
-            fontWeight: FontWeight.bold, // adaptive title size
+            fontWeight: FontWeight.bold,
           ),
         ),
         elevation: 0,
@@ -45,35 +44,35 @@ class OtherUserProfileScreen extends StatelessWidget {
         final user = otherUserController.otherUser.value;
 
         return SingleChildScrollView(
-          padding: EdgeInsets.all(width * 0.04), // adaptive padding
+          padding: EdgeInsets.all(width * 0.04),
           child: Column(
             children: [
               // Profile Card
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(width * 0.04),
+                  borderRadius: BorderRadius.circular(cardBorderRadius),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(width * 0.05),
                   child: Column(
                     children: [
                       CircleAvatar(
-                        radius: width * 0.3,
+                        radius: avatarRadius,
                         backgroundImage:
-                            user.profileImage != null &&
-                                user.profileImage!.isNotEmpty
+                            (user.profileImage != null &&
+                                user.profileImage!.isNotEmpty)
                             ? NetworkImage(user.profileImage!)
                             : null,
                         child:
-                            user.profileImage == null &&
-                                (user.name?.isNotEmpty ?? false)
+                            (user.profileImage == null &&
+                                (user.name?.isNotEmpty ?? false))
                             ? Text(
                                 user.name![0],
-                                style: TextStyle(fontSize: avatarRadius * 1.5),
+                                style: TextStyle(fontSize: avatarRadius * 1.2),
                               )
                             : null,
                       ),
-                      SizedBox(height: height * 0.01),
+                      SizedBox(height: height * 0.015),
                       Text(
                         user.name ?? "No Name",
                         style: TextStyle(
@@ -88,12 +87,12 @@ class OtherUserProfileScreen extends StatelessWidget {
                           fontSize: width * 0.038,
                         ),
                       ),
-                      SizedBox(height: height * 0.001),
+                      SizedBox(height: height * 0.008),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.school, size: width * 0.045),
-                          SizedBox(width: width * 0.02),
+                           SizedBox(width: width * 0.02),
 
                           Text(
                             user.university ?? "No University",
@@ -104,10 +103,10 @@ class OtherUserProfileScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: height * 0.05),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: height * 0.01),
+                      
+                    
+                      Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.location_on, size: width * 0.045),
                           SizedBox(width: width * 0.02),
@@ -117,18 +116,16 @@ class OtherUserProfileScreen extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
-                      SizedBox(width: width * 0.05),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                      ],),
+                          SizedBox(width: width * 0.05),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center, children: [
                           Icon(Icons.calendar_today, size: width * 0.045),
                           SizedBox(width: width * 0.02),
                           Text(
                             user.joinedAt != null
-                                ? "Joined at ${DateFormat("d MMM yyyy").format(DateTime.parse(user.joinedAt!))}"
-                                : "Joined at NA",
+                                ? "Joined on ${DateFormat("d MMM yyyy").format(DateTime.parse(user.joinedAt!))}"
+                                : "Joined on NA",
                             style: TextStyle(fontSize: width * 0.038),
                           ),
                         ],
@@ -144,13 +141,13 @@ class OtherUserProfileScreen extends StatelessWidget {
               Container(
                 height: height * 0.12,
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(cardBorderRadius),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.grey.withOpacity(0.15),
                       spreadRadius: 2,
-                      blurRadius: 5,
+                      blurRadius: 6,
                       offset: const Offset(0, 3),
                     ),
                   ],
@@ -205,7 +202,6 @@ class OtherUserProfileScreen extends StatelessWidget {
     );
   }
 
-  // Reusable stat item
   Widget _statItem(int value, String label, double width, Color color) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -226,7 +222,6 @@ class OtherUserProfileScreen extends StatelessWidget {
     );
   }
 
-  // Reusable info card
   Widget _infoCard(
     String title,
     String? content,

@@ -48,6 +48,7 @@ Widget friendsTab(BuildContext context, FriendConntroller friendController) {
                 Get.to(OtherUserProfileScreen(otherUserId: user.id!));
               },
               child: buildConnectionCard(
+                userModel: user,
                 name: user.name,
                 university: user.university ?? "",
                 message: user.bio ?? "",
