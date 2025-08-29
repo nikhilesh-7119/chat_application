@@ -39,6 +39,7 @@ class PostController extends GetxController {
 
   // 1) Upload post with custom UUID (v4 recommended)
   Future<String> uploadPost({
+    required String authorName,
     required String title,
     required String category,
     required String description,
@@ -49,6 +50,7 @@ class PostController extends GetxController {
 
     // Build PostModel using the provided structure
     final post = PostModel(
+      authorName: authorName,
       id: id,
       title: title.trim(),
       category: category.trim(),
@@ -112,12 +114,13 @@ class PostController extends GetxController {
     }
 
     isLoadingTimestamp.value = false;
-
-    
   }
 
   // Internal: base query for category + timestamp
-  Query<Map<String, dynamic>> _categoryQuery(String category, {int limit = 30}) {
+  Query<Map<String, dynamic>> _categoryQuery(
+    String category, {
+    int limit = 30,
+  }) {
     return _postsRef
         .where('category', isEqualTo: category)
         .orderBy('createdAtTs', descending: true)
@@ -131,7 +134,8 @@ class PostController extends GetxController {
     int pageSize = 30,
   }) async {
     final normalized = category.trim();
-    final categoryChanged = (_currentCategory == null) || (_currentCategory != normalized);
+    final categoryChanged =
+        (_currentCategory == null) || (_currentCategory != normalized);
 
     if (reset || categoryChanged) {
       isLoadingCategory.value = true;
@@ -145,7 +149,8 @@ class PostController extends GetxController {
     final query = (lastDoc == null) ? base : base.startAfterDocument(lastDoc);
 
     if (!isLoadingCategory.value) isLoadingCategory.value = true;
-    final snap = await query.get(); // may prompt to create composite index in console
+    final snap = await query
+        .get(); // may prompt to create composite index in console
     final items = snap.docs.map((d) {
       final m = d.data();
       // m['id'] = d.id;
@@ -170,7 +175,11 @@ class PostController extends GetxController {
 
   Future<void> refreshCategoryFeed({int pageSize = 30}) async {
     if (_currentCategory != null) {
-      await getPostsByCategory(category: _currentCategory!, reset: true, pageSize: pageSize);
+      await getPostsByCategory(
+        category: _currentCategory!,
+        reset: true,
+        pageSize: pageSize,
+      );
     }
   }
 }

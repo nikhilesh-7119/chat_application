@@ -1,16 +1,18 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UploadPostContainer extends StatefulWidget {
   final Future<void> Function(
+    String authorName,
     String title,
     String category,
     String description,
     String authorId,
-  ) onSubmitted;
+  )
+  onSubmitted;
 
   const UploadPostContainer({Key? key, required this.onSubmitted})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<UploadPostContainer> createState() => _UploadPostContainerState();
@@ -44,8 +46,10 @@ class _UploadPostContainerState extends State<UploadPostContainer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Create New Post',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              const Text(
+                'Create New Post',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 12),
 
               // Title
@@ -68,9 +72,18 @@ class _UploadPostContainerState extends State<UploadPostContainer> {
               DropdownButtonFormField<String>(
                 value: _category,
                 items: const [
-                  DropdownMenuItem(value: 'Data Science', child: Text('Data Science')),
-                  DropdownMenuItem(value: 'Mobile Development', child: Text('Mobile Development')),
-                  DropdownMenuItem(value: 'Web Development', child: Text('Web Development')),
+                  DropdownMenuItem(
+                    value: 'Data Science',
+                    child: Text('Data Science'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Mobile Development',
+                    child: Text('Mobile Development'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Web Development',
+                    child: Text('Web Development'),
+                  ),
                   DropdownMenuItem(value: 'AI', child: Text('AI')),
                   DropdownMenuItem(value: 'UI/UX', child: Text('UI/UX')),
                 ],
@@ -113,13 +126,16 @@ class _UploadPostContainerState extends State<UploadPostContainer> {
                           if (!_formKey.currentState!.validate()) return;
                           setState(() => _submitting = true);
                           try {
-                            // Replace authorId with the actual signed-in user id
-                            const authorId = 'CURRENT_USER_UID';
+                            // Get the actual signed-in user id
+                            final authorId =
+                                FirebaseAuth.instance.currentUser!.uid;
                             await widget.onSubmitted(
                               _title.text,
                               _category!,
                               _desc.text,
                               authorId,
+                              FirebaseAuth.instance.currentUser!.displayName ??
+                                  'Unknown',
                             ); // [3]
                             // Clear fields on success
                             _title.clear();
@@ -127,9 +143,7 @@ class _UploadPostContainerState extends State<UploadPostContainer> {
                             setState(() => _category = null);
                             if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Post uploaded'),
-                                ),
+                                const SnackBar(content: Text('Post uploaded')),
                               );
                             }
                           } catch (e) {

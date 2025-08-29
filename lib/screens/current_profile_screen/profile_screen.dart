@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat_application/controllers/user_controller.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -176,7 +177,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(fontSize: subSectionFontSize),
                       ),
                       Text(
-                        "${user.location ?? 'NA'} • Joined at ${user.joinedAt ?? 'NA'}",
+                        "${user.location ?? 'NA'} • Joined on ${DateFormat("d MMM yyyy").format(DateTime.parse(user.joinedAt!))}",
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: subSectionFontSize * 0.88,

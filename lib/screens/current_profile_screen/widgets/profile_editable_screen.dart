@@ -10,8 +10,6 @@ class ProfileEditableScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _yearController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +97,6 @@ class ProfileEditableScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await userController.updateName(_nameController.text);
-                          await userController.updateEmail(
-                            _emailController.text,
-                          );
-                          await userController.updateYear(_yearController.text);
                           await userController.updateName(_nameController.text);
                           Get.back(); // navigate back after save
                         }

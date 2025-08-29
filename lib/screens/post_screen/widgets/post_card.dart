@@ -1,5 +1,9 @@
+import 'package:chat_application/controllers/friend_conntroller.dart';
+import 'package:chat_application/controllers/other_user_controller.dart';
+import 'package:chat_application/controllers/user_controller.dart';
 import 'package:chat_application/models/post_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PostCard extends StatelessWidget {
   final PostModel post;
@@ -7,6 +11,11 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final OtherUserController otherUserController =
+    //     Get.find<OtherUserController>();
+    RxBool requestSent = false.obs;
+    final UserController userController = Get.find<UserController>();
+    final FriendConntroller friendConntroller = Get.find<FriendConntroller>();
     final created = post.createdAt ?? ''; // you may format server ts on read
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -20,11 +29,14 @@ class PostCard extends StatelessWidget {
             // Header: author + time
             Row(
               children: [
-                const CircleAvatar(radius: 16, child: Icon(Icons.person, size: 18)),
+                const CircleAvatar(
+                  radius: 16,
+                  child: Icon(Icons.person, size: 18),
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    post.authorId ?? 'Unknown',
+                    '${post.authorName ?? 'Unknown'}',
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -73,10 +85,19 @@ class PostCard extends StatelessWidget {
                 const Spacer(),
                 OutlinedButton(
                   onPressed: () {
-                    // e.g., increment responsesCount in controller if required
-                    // controller.incrementResponsesCount(postId)
+                    friendConntroller.addInRequestedList(post.authorId!);
+                    requestSent.value = true;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Request sent to ${post.authorName}'),
+                      ),
+                    );
                   },
-                  child: const Text('Send Request'),
+                  child: Obx(
+                    () => Text(
+                      requestSent.value ? "Request sent" : "Send Request",
+                    ),
+                  ),
                 ),
               ],
             ),
